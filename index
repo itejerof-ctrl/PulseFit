@@ -3131,49 +3131,109 @@ function escapeHtml(str){
 }
 
 /* ============================================================
-   DATOS LOCALES · sin servidor ni sincronización
+   DATOS LOCALES + SINCRONIZACIÓN GOOGLE SHEETS
 ============================================================ */
 const LOCAL_DATA_KEY = 'pulsefit-local-v2';
-function persistLocalData(){
-  try{
-    const data={exercises,exerciseIdSeq,profile,workoutLog,bodyRecords,userHeight,folders,folderIdSeq};
-    localStorage.setItem(LOCAL_DATA_KEY,JSON.stringify(data));
-    const el=document.getElementById('localSaveStatus');if(el)el.textContent='Guardado en este dispositivo';
-  }catch(err){
-    toast('Almacenamiento lleno. Exporta tus datos y reduce el tamaño de las imágenes.');
+const GOOGLE_SCRIPT_URL = 'PEGA_AQUI_TU_URL_DE_APPS_SCRIPT_TERMINADA_EN_EXEC';
+
+let syncTimeout = null;
+
+function getAppDataPayload() {
+  return {
+    version: 2,
+    updatedAt: new Date().toISOString(),
+    exercises,
+    exerciseIdSeq,
+    profile,
+    workoutLog,
+    bodyRecords,
+    userHeight,
+    folders,
+    folderIdSeq,
+    routineExercises
+  };
+}
+
+function applyAppData(d) {
+  if (!d || d.status === 'empty') return;
+  if (Array.isArray(d.exercises)) exercises = d.exercises;
+  if (Number.isFinite(d.exerciseIdSeq)) exerciseIdSeq = d.exerciseIdSeq;
+  if (d.profile && typeof d.profile.name === 'string') profile = d.profile;
+  if (Array.isArray(d.workoutLog)) workoutLog = d.workoutLog;
+  if (Array.isArray(d.bodyRecords)) bodyRecords = d.bodyRecords;
+  if (Number.isFinite(d.userHeight)) userHeight = d.userHeight;
+  if (Array.isArray(d.folders)) folders = d.folders;
+  if (Number.isFinite(d.folderIdSeq)) folderIdSeq = d.folderIdSeq;
+  if (Array.isArray(d.routineExercises)) routineExercises = d.routineExercises;
+}
+
+function persistLocalData() {
+  try {
+    const data = getAppDataPayload();
+    localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(data));
+    scheduleCloudSync(data);
+  } catch (err) {
+    toast('Almacenamiento lleno. Reduce el tamaño de las imágenes.');
   }
 }
-function restoreLocalData(){
-  try{
-    const raw=localStorage.getItem(LOCAL_DATA_KEY);if(!raw)return;
-    const d=JSON.parse(raw);
-    if(Array.isArray(d.exercises)) exercises=d.exercises;
-    if(Number.isFinite(d.exerciseIdSeq)) exerciseIdSeq=d.exerciseIdSeq;
-    if(d.profile && typeof d.profile.name==='string') profile=d.profile;
-    if(Array.isArray(d.workoutLog)) workoutLog=d.workoutLog;
-    if(Array.isArray(d.bodyRecords)) bodyRecords=d.bodyRecords;
-    if(Number.isFinite(d.userHeight)) userHeight=d.userHeight;
-    if(Array.isArray(d.folders)) folders=d.folders;
-    if(Number.isFinite(d.folderIdSeq)) folderIdSeq=d.folderIdSeq;
-  }catch(e){console.warn('No se pudieron restaurar los datos locales',e);}
+
+// Espera 1.5s tras el último cambio antes de enviar a Google Sheets
+function scheduleCloudSync(data) {
+  if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('PEGA_AQUI')) return;
+  clearTimeout(syncTimeout);
+  syncTimeout = setTimeout(() => syncToGoogleSheets(data), 1500);
 }
-function exportLocalData(){
-  const blob=new Blob([JSON.stringify({version:2,exportedAt:new Date().toISOString(),exercises,exerciseIdSeq,profile,workoutLog,bodyRecords,userHeight,folders,folderIdSeq},null,2)],{type:'application/json'});
-  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='pulsefit-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+
+async function syncToGoogleSheets(data) {
+  try {
+    // Usamos text/plain para evitar preflight CORS (OPTIONS) que Apps Script rechaza
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data || getAppDataPayload())
+    });
+    console.log('Sincronizado con Google Sheets');
+  } catch (err) {
+    console.warn('Error sincronizando con Google Sheets (modo offline):', err);
+  }
 }
-function importLocalData(event){
-  const file=event.target.files&&event.target.files[0];event.target.value='';if(!file)return;
-  const reader=new FileReader();reader.onload=()=>{try{
-    const d=JSON.parse(reader.result);if(!Array.isArray(d.exercises))throw new Error('Formato');
-    if(!confirm('Importar esta copia reemplazará los datos locales actuales. ¿Continuar?'))return;
-    if(d.exercises)exercises=d.exercises;if(d.exerciseIdSeq)exerciseIdSeq=d.exerciseIdSeq;if(d.profile)profile=d.profile;if(d.workoutLog)workoutLog=d.workoutLog;if(d.bodyRecords)bodyRecords=d.bodyRecords;if(d.userHeight)userHeight=d.userHeight;if(d.folders)folders=d.folders;if(d.folderIdSeq)folderIdSeq=d.folderIdSeq;
-    persistLocalData();location.reload();
-  }catch(e){toast('El archivo de copia no es válido');}};reader.readAsText(file);
+
+function restoreLocalData() {
+  try {
+    const raw = localStorage.getItem(LOCAL_DATA_KEY);
+    if (!raw) return;
+    applyAppData(JSON.parse(raw));
+  } catch (e) {
+    console.warn('No se pudieron restaurar los datos locales', e);
+  }
 }
+
+async function pullFromGoogleSheets() {
+  if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes('PEGA_AQUI')) return;
+  try {
+    const res = await fetch(GOOGLE_SCRIPT_URL);
+    const cloudData = await res.json();
+    if (cloudData && cloudData.exercises) {
+      applyAppData(cloudData);
+      localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(cloudData));
+      // Refrescar vistas con los datos descargados
+      renderFolderScroll();
+      renderExerciseList();
+      renderMeasureChart();
+      renderMeasureRecords();
+      renderProfileHeader();
+      renderRoutineExercises();
+      renderCalendar();
+      toast('Datos sincronizados con la nube ☁️');
+    }
+  } catch (e) {
+    console.warn('No se pudo descargar desde Google Sheets:', e);
+  }
+}
+
+// Inicialización de datos
 restoreLocalData();
-window.addEventListener('pagehide',()=>{try{persistLocalData();}catch(e){}});
-document.addEventListener('click',()=>setTimeout(()=>{try{persistLocalData();}catch(e){}},0));
-document.addEventListener('change',()=>{try{persistLocalData();}catch(e){}});
+pullFromGoogleSheets();
 /* ============================================================
    INIT
 ============================================================ */
