@@ -3234,6 +3234,8 @@ async function pullFromGoogleSheets() {
 // Inicialización de datos
 restoreLocalData();
 pullFromGoogleSheets();
+
+
 /* ============================================================
    INIT
 ============================================================ */
