@@ -243,7 +243,7 @@ svg { display: block; }
   color: var(--blue);
 }
 
-/* ============ CHART CARD (12 COLUMNS) ============ */
+/* ============ CHART CARD ============ */
 .chart-card { padding: 16px; }
 .chart-head {
   display: flex;
@@ -280,20 +280,21 @@ svg { display: block; }
 .period-chips.wide button { flex: 1; padding: 7px 0; font-size: 11.5px; }
 
 .bars {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  align-items: end;
-  gap: 5px;
-  height: 126px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 10px;
+  height: 120px;
   margin-top: 4px;
 }
 .bar-col {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
   height: 100%;
-  gap: 5px;
+  gap: 6px;
   min-width: 0;
   border: 0;
   padding: 0;
@@ -303,7 +304,7 @@ svg { display: block; }
   cursor: pointer;
 }
 .bar-val {
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--muted);
   opacity: 0;
@@ -313,8 +314,8 @@ svg { display: block; }
 .bar-col.selected .bar-val { opacity: 1; color: var(--blue); }
 .bar {
   width: 100%;
-  max-width: 18px;
-  border-radius: 5px;
+  max-width: 28px;
+  border-radius: 6px;
   background: var(--card-2);
   transition: height 0.35s ease, background 0.2s;
   min-height: 4px;
@@ -322,13 +323,7 @@ svg { display: block; }
 :root[data-theme="light"] .bar { background: #E5E7EB; }
 .bar-col.selected .bar { background: var(--blue); }
 .bar-col.empty .bar { background: var(--bg-soft); }
-.bar-label {
-  font-size: 8.5px;
-  color: var(--muted-2);
-  font-weight: 600;
-  white-space: nowrap;
-  letter-spacing: -0.2px;
-}
+.bar-label { font-size: 10.5px; color: var(--muted-2); font-weight: 600; }
 
 .filter-row {
   display: flex;
@@ -565,8 +560,8 @@ svg { display: block; }
   margin-bottom: 8px;
 }
 .ex-detail-thumb {
-  width: 40px; height: 40px;
-  border-radius: 9px;
+  width: 56px; height: 56px;
+  border-radius: 12px;
   flex-shrink: 0;
   object-fit: cover;
   background: var(--card-2);
@@ -713,15 +708,16 @@ svg { display: block; }
   margin-bottom: 12px;
 }
 .ex-image {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
+  width: 58px;
+  height: 58px;
+  border-radius: 13px;
   background-color: var(--card-2);
   background-size: cover;
   background-position: center;
   flex-shrink: 0;
   border: 1px solid var(--line);
 }
+.ex-image .play, .ex-image .lbl { display: none; }
 .ec-title { flex: 1; min-width: 0; }
 .ec-head h3 { font-size: 14.5px; font-weight: 600; }
 .ec-head p { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
@@ -951,7 +947,7 @@ svg { display: block; }
   border: 1px solid var(--line); border-radius: var(--r-md); margin-bottom: 8px;
 }
 .ex-lib-item.pick { cursor: pointer; }
-.eli-thumb { width: 40px; height: 40px; border-radius: 9px; flex-shrink: 0; object-fit: cover; background: var(--card-2); }
+.eli-thumb { width: 52px; height: 52px; border-radius: 11px; flex-shrink: 0; object-fit: cover; background: var(--card-2); }
 .eli-tx { flex: 1; min-width: 0; }
 .eli-tx b { display: block; font-size: 13.5px; font-weight: 600; }
 .eli-tx span { display: inline-block; font-size: 9.5px; font-weight: 600; padding: 2px 7px; border-radius: 5px; margin-top: 4px; }
@@ -1139,6 +1135,34 @@ svg { display: block; }
 .history-detail-metric b { display: block; font-size: 15px; font-weight: 700; }
 .history-detail-metric span { display: block; color: var(--muted); font-size: 9.5px; font-weight: 600; margin-top: 3px; }
 
+/* ============ DETALLE DE ENTRENAMIENTO · EJERCICIOS Y PESOS ============ */
+.history-ex-block {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  padding: 12px;
+  margin-bottom: 10px;
+}
+.history-ex-head { display: flex; align-items: center; gap: 11px; margin-bottom: 9px; }
+.history-ex-head img {
+  width: 52px; height: 52px; border-radius: 12px; object-fit: cover;
+  background: var(--card-2); border: 1px solid var(--line); flex-shrink: 0;
+}
+.history-ex-head .hex-tx { flex: 1; min-width: 0; }
+.history-ex-head b { display: block; font-size: 13.5px; font-weight: 600; }
+.history-ex-head span { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.history-ex-note {
+  margin-top: 8px; padding: 7px 9px; border-radius: 7px;
+  background: var(--bg-soft); color: var(--muted); font-size: 11.5px; line-height: 1.45;
+}
+.history-no-detail {
+  margin-top: 12px; padding: 14px; border-radius: var(--r-md);
+  background: var(--card); border: 1px solid var(--line);
+  color: var(--muted); font-size: 12px; line-height: 1.55;
+}
+.set-line .set-sub { color: var(--muted); font-weight: 500; font-size: 11px; margin-left: 6px; }
+.toggle-row small { display: block; color: var(--muted); font-weight: 400; font-size: 10.5px; margin-top: 2px; }
+
 @media (max-width: 460px), (max-height: 880px) {
   .phone { width: 100vw; height: 100dvh; border-radius: 0; box-shadow: none; }
   .statusbar { display: none; }
@@ -1176,7 +1200,7 @@ svg { display: block; }
             <div class="name" id="profileName">Carlos Ruiz</div>
             <div class="handle">Resumen de actividad</div>
           </div>
-          <div class="sync-pill" id="syncStatusPill" onclick="openCloudSheet()" title="Sincronización bidireccional">
+          <div class="sync-pill" id="syncStatusPill" onclick="openCloudSheet()" title="Sincronización con Google Sheets">
             <span class="dot"></span>
             <span id="syncStatusText">Local</span>
           </div>
@@ -1207,18 +1231,18 @@ svg { display: block; }
           </div>
         </div>
 
-        <!-- CHART (12 COLUMNAS DINÁMICAS) -->
-        <div class="sec-title"><h2>Progreso de entrenamiento</h2></div>
+        <!-- CHART -->
+        <div class="sec-title"><h2>Progreso semanal</h2></div>
         <div class="card chart-card">
           <div class="chart-head">
             <div>
-              <h3>Evolución por periodo</h3>
-              <p id="chartSub">Duración · últimos 3 meses (12 semanas)</p>
+              <h3>Actividad por día</h3>
+              <p id="chartSub">Duración · últimos 3 meses</p>
             </div>
-            <div class="period-chips" id="homePeriodChips">
-              <button class="on" data-p="3M" onclick="setPeriod(this)">3M</button>
-              <button data-p="6M" onclick="setPeriod(this)">6M</button>
-              <button data-p="1A" onclick="setPeriod(this)">1A</button>
+            <div class="period-chips">
+              <button class="on" onclick="setPeriod(this)">3M</button>
+              <button onclick="setPeriod(this)">6M</button>
+              <button onclick="setPeriod(this)">1A</button>
             </div>
           </div>
 
@@ -1487,12 +1511,12 @@ svg { display: block; }
             </select>
           </div>
 
-          <div class="sheet-label" style="margin-top:12px">ICONO O IMAGEN EN GOOGLE DRIVE</div>
+          <div class="sheet-label" style="margin-top:12px">ICONO</div>
           <div class="img-picker" id="addImgPicker"></div>
           <div class="local-upload-row">
-            <label class="local-upload-btn" for="addExerciseImage">☁️ Subir imagen a Drive</label>
+            <label class="local-upload-btn" for="addExerciseImage">＋ Subir imagen propia</label>
             <input id="addExerciseImage" type="file" accept="image/*" hidden onchange="handleExerciseImageUpload(event,'add')">
-            <span id="addImageStatus" class="local-upload-status">Se guarda en tu carpeta PulseFit_Images</span>
+            <span id="addImageStatus" class="local-upload-status">JPG, PNG o WebP</span>
           </div>
           <img id="addImagePreview" class="custom-image-preview" alt="Vista previa" hidden>
 
@@ -1711,12 +1735,12 @@ svg { display: block; }
           </select>
         </div>
 
-        <div class="sheet-label" style="margin-top:12px">ICONO O IMAGEN EN GOOGLE DRIVE</div>
+        <div class="sheet-label" style="margin-top:12px">ICONO</div>
         <div class="img-picker" id="editExImgPicker"></div>
         <div class="local-upload-row">
-          <label class="local-upload-btn" for="editExerciseImage">☁️ Subir imagen a Drive</label>
+          <label class="local-upload-btn" for="editExerciseImage">＋ Subir imagen propia</label>
           <input id="editExerciseImage" type="file" accept="image/*" hidden onchange="handleExerciseImageUpload(event,'edit')">
-          <span id="editImageStatus" class="local-upload-status">Se guarda en tu carpeta PulseFit_Images</span>
+          <span id="editImageStatus" class="local-upload-status">JPG, PNG o WebP</span>
         </div>
         <img id="editImagePreview" class="custom-image-preview" alt="Vista previa" hidden>
 
@@ -1758,51 +1782,62 @@ svg { display: block; }
         <div class="sheet-label" style="margin-top:14px">IMAGEN DE PERFIL</div>
         <div class="avatar-picker" id="avatarPicker"></div>
         <div class="local-upload-row">
-          <label class="local-upload-btn" for="profileImageUpload">☁️ Subir foto a Drive</label>
+          <label class="local-upload-btn" for="profileImageUpload">＋ Subir foto</label>
           <input id="profileImageUpload" type="file" accept="image/*" hidden onchange="handleProfileImageUpload(event)">
-          <span id="profileImageStatus" class="local-upload-status">Se guarda en tu Google Drive</span>
+          <span class="local-upload-status" id="profileImageStatus">Guardado local</span>
+        </div>
+
+        <div class="sheet-label" style="margin-top:16px">DESCANSO</div>
+        <label class="toggle-row" style="margin-top:0">
+          <span>Aviso al terminar el descanso<small>Notificación y vibración en tu móvil</small></span>
+          <input type="checkbox" id="profileRestAlerts" onchange="onRestAlertsToggle()">
+        </label>
+        <div class="local-upload-row" style="margin-top:8px">
+          <button class="btn btn-ghost" style="padding:8px 12px;font-size:12px" onclick="testRestAlert()">Probar aviso</button>
+          <span class="local-upload-status" id="restAlertHint">—</span>
         </div>
 
         <button class="btn btn-primary" style="width:100%;padding:12px;margin-top:16px;" onclick="saveProfile()">Guardar cambios</button>
       </div>
     </div>
 
-    <!-- ===== SHEET GOOGLE SHEETS & DRIVE SYNC ===== -->
+    <!-- ===== SHEET GOOGLE SHEETS SYNC ===== -->
     <div class="backdrop" id="cloudBackdrop" onclick="closeCloudSheet()"></div>
     <div class="sheet" id="cloudSheet">
       <div class="sheet-handle"></div>
       <div class="sheet-head">
-        <h3>Sincronización Bidireccional + Drive</h3>
+        <h3>Sincronización en la nube</h3>
         <button class="sheet-close" onclick="closeCloudSheet()">✕</button>
       </div>
       <div class="sheet-body">
         <div class="sheet-label">URL DE TU WEB APP (APPS SCRIPT)</div>
         <input id="gsWebAppUrl" class="text-input" placeholder="https://script.google.com/macros/s/.../exec" oninput="saveGsConfig()">
         <div style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.4">
-          Sincroniza datos en ambos sentidos con tu Google Sheet y guarda las imágenes subidas en la carpeta <b>PulseFit_Images</b> de tu Google Drive.
+          Pega aquí la URL de implementación de tu Google Sheet y pulsa <b>Cargar de Sheet</b> para descargar los ejercicios y rutinas iniciales.
         </div>
 
         <label class="toggle-row">
-          <span>Sincronización bidireccional automática</span>
+          <span>Sincronización automática al guardar</span>
           <input type="checkbox" id="gsAutoSync" checked onchange="saveGsConfig()">
         </label>
 
-        <button class="btn btn-primary" style="width:100%;padding:12px;font-size:13px;margin-top:10px" onclick="bidirectionalSync(true)">
-          ⇄ Sincronizar ahora (Bidireccional)
-        </button>
-
         <div class="sync-grid">
-          <button class="btn btn-ghost" style="padding:10px;font-size:12px" onclick="pushToGoogleSheet(true)">↑ Forzar envío a Sheet</button>
-          <button class="btn btn-ghost" style="padding:10px;font-size:12px" onclick="pullFromGoogleSheet(true)">↓ Forzar carga de Sheet</button>
+          <button class="btn btn-primary" style="padding:11px;font-size:12.5px" onclick="pushToGoogleSheet(true)">Enviar a Sheet</button>
+          <button class="btn btn-ghost" style="padding:11px;font-size:12.5px" onclick="pullFromGoogleSheet(true)">Cargar de Sheet</button>
         </div>
 
         <div id="gsLastSyncInfo" style="font-size:11px;color:var(--muted);margin-top:10px;text-align:center">
           Sin sincronizar todavía
         </div>
 
+        <div style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.45;text-align:center">
+          Tus datos se guardan en hojas separadas (Ejercicios, Rutinas, Entrenamientos, Series, Medidas y Perfil).<br>
+          Las imágenes se guardan en tu Drive, carpeta <b>PulseFit · Imágenes</b>.
+        </div>
+
         <div class="sheet-label" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center">
-          <span>INSTRUCCIONES APPS SCRIPT</span>
-          <a onclick="copyAppsScriptCode()" style="color:var(--blue);cursor:pointer;font-size:11px">Copiar nota</a>
+          <span>CÓDIGO APPS SCRIPT</span>
+          <a onclick="copyAppsScriptCode()" style="color:var(--blue);cursor:pointer;font-size:11px">Copiar código</a>
         </div>
         <pre class="code-box" id="appsScriptCodeBox"></pre>
 
@@ -1842,7 +1877,7 @@ function formatDateDisplay(iso){
 const TODAY_ISO = isoDate(TODAY);
 
 /* ============================================================
-   ILUSTRACIONES SVG E IMÁGENES DE DRIVE
+   ILUSTRACIONES SVG (ICONOS)
 ============================================================ */
 function svgUri(inner){
   return 'data:image/svg+xml;utf8,' + encodeURIComponent(
@@ -1936,13 +1971,18 @@ const EXERCISE_IMAGES = {
 };
 const EXERCISE_IMG_KEYS = Object.keys(EXERCISE_IMAGES);
 
-function isExternalOrDataImage(val){
-  if (typeof val !== 'string') return false;
-  return val.startsWith('http://') || val.startsWith('https://') || val.startsWith('data:image/');
+/* Resuelve la imagen de un ejercicio: icono interno, imagen local (base64) o URL de Drive */
+function exerciseImg(img){
+  if (typeof img === 'string' && img) {
+    if (img.startsWith('data:image/') || /^https?:\/\//i.test(img)) return img;
+  }
+  return EXERCISE_IMAGES[img] || EXERCISE_IMAGES.generic;
 }
-function resolveExerciseImage(imgKeyOrUrl){
-  if (isExternalOrDataImage(imgKeyOrUrl)) return imgKeyOrUrl;
-  return EXERCISE_IMAGES[imgKeyOrUrl] || EXERCISE_IMAGES.generic;
+/* Lo que se guarda en Google Sheets nunca puede ser base64: icono o URL */
+function imageKeyForStorage(img){
+  if (typeof img === 'string' && /^https?:\/\//i.test(img)) return img;
+  if (typeof img === 'string' && img.startsWith('data:')) return '';
+  return img || 'generic';
 }
 
 const AVATAR_COLORS = [
@@ -1988,8 +2028,6 @@ function back(){ if(stack.length > 1){ stack.pop(); render(); } }
    HISTORIAL REAL Y RESUMEN DE ACTIVIDAD
 ============================================================ */
 const MONTH_NAMES_ES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const SHORT_MONTHS_ES = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-
 function formatWorkoutDate(iso){
   const d=parseISO(iso), today=parseISO(TODAY_ISO), diff=Math.round((today-d)/86400000);
   if(diff===0) return 'Hoy';
@@ -2001,19 +2039,61 @@ function formatDurationMinutes(min){
   return Math.floor(min/60)>0 ? `${Math.floor(min/60)} h ${min%60} min` : `${min} min`;
 }
 let selectedWorkoutRecord=null;
-function showWorkoutDetail(date){
-  const w=recordedWorkouts().find(x=>x.date===date);if(!w)return; selectedWorkoutRecord=w;
-  const content=document.getElementById('historyDetailContent');if(!content)return;
-  const d=parseISO(w.date),dateLabel=d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-  content.innerHTML=`<div class="history-detail-head"><div><div class="history-detail-title">${escapeHtml(w.name||'Entrenamiento')}</div><div class="history-detail-date">${escapeHtml(dateLabel)}</div></div><div class="pr-badge">SESIÓN</div></div>
-    <div class="history-detail-grid"><div class="history-detail-metric"><b>${formatDurationMinutes(w.duration)}</b><span>DURACIÓN</span></div><div class="history-detail-metric"><b>${(Number(w.volume)||0).toLocaleString('es-ES')} kg</b><span>VOLUMEN</span></div><div class="history-detail-metric"><b>${Number(w.sets)||0}</b><span>SERIES COMPLETADAS</span></div><div class="history-detail-metric"><b>${Number(w.reps)||0}</b><span>REPETICIONES</span></div></div>
-    <div class="card" style="margin-top:12px"><div style="font-size:10px;color:var(--muted);font-weight:600;margin-bottom:6px">RESUMEN</div><p style="font-size:12px;line-height:1.6;color:var(--muted)">Has completado ${Number(w.sets)||0} series en ${formatDurationMinutes(w.duration)}, con un volumen total de ${(Number(w.volume)||0).toLocaleString('es-ES')} kg.</p></div>
+
+function findWorkoutRecord(key){
+  if(!key) return null;
+  const list=recordedWorkouts();
+  return list.find(w=>w.id===key) || list.find(w=>w.date===key) || null;
+}
+function workoutKey(w){ return String((w && (w.id || w.date)) || ''); }
+function fmtKgNumber(n){ return (Number(n)||0).toLocaleString('es-ES',{maximumFractionDigits:1}); }
+
+function workoutExercisesHtml(w){
+  const list=Array.isArray(w.exercises)?w.exercises:[];
+  if(!list.length) return '';
+  return `<div class="sheet-label" style="margin:16px 0 8px">EJERCICIOS Y PESOS UTILIZADOS</div>` + list.map(ex=>{
+    const sets=Array.isArray(ex.sets)?ex.sets:[];
+    const setsHtml=sets.length
+      ? sets.map((s,i)=>{
+          const peso=Number(s.weight)||0;
+          const reps=Number(s.reps)||0;
+          const vol=(s.volume!==undefined&&s.volume!==null&&s.volume!=='')?Number(s.volume):peso*reps;
+          return `<div class="set-line"><span class="set-index">Serie ${Number(s.set)||i+1}</span><span class="set-data">${fmtKgNumber(peso)} kg × ${reps} reps<span class="set-sub">${fmtKgNumber(vol)} kg</span></span></div>`;
+        }).join('')
+      : `<div class="set-line" style="justify-content:flex-start"><span class="set-index">Sin series registradas</span></div>`;
+    return `<div class="history-ex-block">
+      <div class="history-ex-head">
+        <img src="${exerciseImg(ex.img)}" alt="">
+        <div class="hex-tx"><b>${escapeHtml(ex.name||'Ejercicio')}</b><span>${escapeHtml(ex.muscle||'')}${sets.length?' · '+sets.length+' serie'+(sets.length===1?'':'s'):''} · ${fmtKgNumber(ex.volume)} kg</span></div>
+      </div>
+      <div class="ex-sets-list">${setsHtml}</div>
+      ${ex.note?`<div class="history-ex-note">📝 ${escapeHtml(ex.note)}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function showWorkoutDetail(key){
+  const w=findWorkoutRecord(key); if(!w) return;
+  selectedWorkoutRecord=w;
+  const content=document.getElementById('historyDetailContent'); if(!content) return;
+  const d=parseISO(w.date);
+  const dateLabel=d.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  const details=workoutExercisesHtml(w);
+  const emptyDetail=details?'':`<div class="history-no-detail">Este entrenamiento se guardó antes de la actualización, así que no tiene el detalle de series. Los próximos sí guardarán cada ejercicio con su peso y sus repeticiones.</div>`;
+  content.innerHTML=`<div class="history-detail-head"><div><div class="history-detail-title">${escapeHtml(w.name||'Entrenamiento')}</div><div class="history-detail-date">${escapeHtml(dateLabel)}${w.folder?' · '+escapeHtml(w.folder):''}</div></div><div class="pr-badge">SESIÓN</div></div>
+    <div class="history-detail-grid"><div class="history-detail-metric"><b>${formatDurationMinutes(w.duration)}</b><span>DURACIÓN</span></div><div class="history-detail-metric"><b>${fmtKgNumber(w.volume)} kg</b><span>VOLUMEN</span></div><div class="history-detail-metric"><b>${Number(w.sets)||0}</b><span>SERIES</span></div><div class="history-detail-metric"><b>${Number(w.reps)||0}</b><span>REPETICIONES</span></div></div>
+    ${details}${emptyDetail}
     <button class="btn btn-ghost btn-delete-workout" style="width:100%;margin-top:14px;padding:12px" onclick="deleteWorkoutFromDetail()">Eliminar entrenamiento</button>`;
-  document.getElementById('historyDetailSheet').classList.add('open');document.getElementById('historyDetailBackdrop').classList.add('open');
+  document.getElementById('historyDetailSheet').classList.add('open');
+  document.getElementById('historyDetailBackdrop').classList.add('open');
 }
 function deleteWorkoutFromDetail(){
-  if(!selectedWorkoutRecord)return;
-  const idx=workoutLog.findIndex(x=>x.date===selectedWorkoutRecord.date&&x.name===selectedWorkoutRecord.name&&Number(x.duration)===Number(selectedWorkoutRecord.duration)&&Number(x.volume)===Number(selectedWorkoutRecord.volume));
+  if(!selectedWorkoutRecord) return;
+  const target=selectedWorkoutRecord;
+  const idx=workoutLog.findIndex(x=>{
+    if(target.id && x.id) return String(x.id)===String(target.id);
+    return x.date===target.date && x.name===target.name && Number(x.duration)===Number(target.duration) && Number(x.volume)===Number(target.volume);
+  });
   if(idx<0){closeWorkoutDetail();return;}
   workoutLog.splice(idx,1);persistLocalData();closeWorkoutDetail();renderRecentHistory();renderWorkoutStats();renderCalendar();renderChart(currentFilter);toast('Entrenamiento eliminado');
 }
@@ -2032,7 +2112,7 @@ function renderRecentHistory(){
     const vol=(Number(w.volume)||0).toLocaleString('es-ES');
     const dur=formatDurationMinutes(w.duration);
     const sets=Number(w.sets)||0;
-    return `<div class="hist-card" role="button" tabindex="0" onclick="showWorkoutDetail('${w.date}')">
+    return `<div class="hist-card" role="button" tabindex="0" onclick="showWorkoutDetail('${workoutKey(w)}')">
       <div class="hist-top"><div><h3>${title}</h3><div class="date">${formatWorkoutDate(w.date)} · ${w.date.split('-').reverse().join('/')}</div></div><div class="pr-badge">${sets} series</div></div>
       <div class="hist-metrics"><div class="hm"><b>${dur}</b><span>tiempo</span></div><div class="hm"><b>${vol} kg</b><span>volumen</span></div></div>
     </div>`;
@@ -2064,111 +2144,67 @@ function renderWorkoutStats(){
 }
 
 /* ============================================================
-   GRÁFICO DE BARRAS DE 12 COLUMNAS (3M, 6M, 1A)
+   GRÁFICO DE BARRAS (HOME)
 ============================================================ */
 const CHART_DATA = {
   dur: { fmt:v => Math.round(v) + 'm', label:'Duración' },
-  vol: { fmt:v => v >= 1000 ? (v/1000).toFixed(1) + 'k' : Math.round(v) + '', label:'Volumen (kg)' },
+  vol: { fmt:v => (v/1000).toFixed(1) + 'k', label:'Volumen (kg)' },
   rep: { fmt:v => Math.round(v).toLocaleString('es-ES'), label:'Repeticiones' }
 };
+const DAYS = ['L','M','X','J','V','S','D'];
 let currentFilter = 'dur';
-let homePeriod = '3M';
 
 function recordedWorkouts(){
   return (Array.isArray(workoutLog) ? workoutLog : [])
-    .filter(w => w && /^\d{4}-\d{2}-\d{2}$/.test(w.date))
+    .filter(w => w && /^\d{4}-\d{2}-\d{2}$/.test(w.date) && Number.isFinite(Number(w.sets)))
     .map(w => ({...w, duration:Number(w.duration)||0, volume:Number(w.volume)||0, sets:Number(w.sets)||0, reps:Number(w.reps)||0}));
 }
 
-/**
- * Construye siempre 12 columnas según el periodo activo:
- * - '1A': Últimos 12 meses naturales (1 mes por columna)
- * - '6M': Últimos 6 meses (~180 días) divididos en 12 quincenas (15 días por columna)
- * - '3M': Últimos 3 meses (~84 días) divididos en 12 semanas (7 días por columna)
- */
-function build12Buckets(periodKey, field) {
-  const sessions = recordedWorkouts();
-  const buckets = [];
-
-  if (periodKey === '1A') {
-    for (let i = 11; i >= 0; i--) {
-      const d = new Date(TODAY.getFullYear(), TODAY.getMonth() - i, 1);
-      const y = d.getFullYear();
-      const m = d.getMonth();
-      const label = SHORT_MONTHS_ES[m];
-      const fullLabel = `${SHORT_MONTHS_ES[m]} ${y}`;
-      const val = sessions
-        .filter(w => {
-          const wd = parseISO(w.date);
-          return wd.getFullYear() === y && wd.getMonth() === m;
-        })
-        .reduce((sum, w) => sum + (Number(w[field]) || 0), 0);
-      buckets.push({ label, fullLabel, value: val });
-    }
-  } else {
-    const stepDays = periodKey === '6M' ? 15 : 7; // 6M = 12*15d (180d), 3M = 12*7d (84d)
-    for (let i = 11; i >= 0; i--) {
-      const endDate = addDays(TODAY, -i * stepDays);
-      const startDate = addDays(endDate, -(stepDays - 1));
-      const startIso = isoDate(startDate);
-      const endIso = isoDate(endDate);
-      const label = `${endDate.getDate()}/${endDate.getMonth() + 1}`;
-      const fullLabel = `${startDate.getDate()}/${startDate.getMonth()+1} - ${endDate.getDate()}/${endDate.getMonth()+1}`;
-      const val = sessions
-        .filter(w => w.date >= startIso && w.date <= endIso)
-        .reduce((sum, w) => sum + (Number(w[field]) || 0), 0);
-      buckets.push({ label, fullLabel, value: val });
-    }
-  }
-
-  return buckets;
+function selectedHomePeriodDays(){
+  const label=document.querySelector('.period-chips .on')?.textContent?.trim()||'3M';
+  return label==='6M'?180:label==='1A'?365:90;
 }
 
 function renderChart(filter){
   currentFilter = filter;
   const cfg = CHART_DATA[filter] || CHART_DATA.dur;
-  const field = filter === 'vol' ? 'volume' : filter === 'rep' ? 'reps' : 'duration';
-  const buckets = build12Buckets(homePeriod, field);
-
-  const values = buckets.map(b => b.value);
+  const days = selectedHomePeriodDays();
+  const cutoff = isoDate(addDays(TODAY, -days));
+  const sessions = recordedWorkouts().filter(w => w.date >= cutoff && w.date <= TODAY_ISO);
+  const values = DAYS.map((_, dayIndex) => {
+    const matching=sessions.filter(w => ((parseISO(w.date).getDay()+6)%7)===dayIndex);
+    if(!matching.length) return 0;
+    const field=filter==='vol'?'volume':filter==='rep'?'reps':'duration';
+    return matching.reduce((sum,w)=>sum+(Number(w[field])||0),0)/matching.length;
+  });
   const max = Math.max(1, ...values);
-  const hasData = values.some(v => v > 0);
-  const defaultIndex = hasData ? values.reduce((last, v, i) => v > 0 ? i : last, 11) : 11;
-
   const container = document.getElementById('bars');
   if(!container) return;
   container.innerHTML = '';
-
-  buckets.forEach((b, i) => {
-    const val = b.value;
+  const hasData=sessions.length>0;
+  const defaultIndex = values[5] > 0 ? 5 : Math.max(0, values.reduce((last,v,i)=>v>0?i:last,-1));
+  values.forEach((val, i) => {
     const isEmpty = val === 0;
     const h = isEmpty ? 4 : Math.max(14, Math.round((val / max) * 100));
     const col = document.createElement('button');
     col.type = 'button';
     col.className = 'bar-col' + (isEmpty ? ' empty' : '') + (i === defaultIndex && hasData ? ' selected' : '');
-    col.title = `${b.fullLabel}: ${isEmpty ? '0' : cfg.fmt(val)}`;
-    col.onclick = () => {
-      container.querySelectorAll('.bar-col').forEach(c => c.classList.remove('selected'));
+    col.onclick=()=>{
+      container.querySelectorAll('.bar-col').forEach(c=>c.classList.remove('selected'));
       col.classList.add('selected');
     };
     col.innerHTML = `
       <div class="bar-val">${isEmpty ? '—' : cfg.fmt(val)}</div>
       <div class="bar" style="height:0%"></div>
-      <div class="bar-label">${b.label}</div>`;
+      <div class="bar-label">${DAYS[i]}</div>`;
     container.appendChild(col);
     requestAnimationFrame(() => setTimeout(() => {
-      const bar = col.querySelector('.bar');
-      if(bar) bar.style.height = h + '%';
-    }, 15 + i * 18));
+      const bar=col.querySelector('.bar'); if(bar) bar.style.height = h + '%';
+    }, 20 + i * 25));
   });
-
-  const periodDesc = homePeriod === '1A'
-    ? 'últimos 12 meses (12 columnas)'
-    : homePeriod === '6M'
-      ? 'últimos 6 meses (12 quincenas)'
-      : 'últimos 3 meses (12 semanas)';
-
-  document.getElementById('chartSub').textContent = `${cfg.label} · ${periodDesc}`;
+  document.getElementById('chartSub').textContent = hasData
+    ? cfg.label + ' · media por día · últimos ' + (days===365?'12 meses':days===180?'6 meses':'3 meses')
+    : cfg.label + ' · sin sesiones registradas';
 }
 
 function setFilter(btn){
@@ -2178,9 +2214,8 @@ function setFilter(btn){
 }
 
 function setPeriod(btn){
-  document.querySelectorAll('#homePeriodChips button').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.period-chips button').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  homePeriod = btn.dataset.p || btn.textContent.trim();
   renderChart(currentFilter);
 }
 
@@ -2232,10 +2267,78 @@ function setRoutinePeriod(btn){
 }
 
 /* ============================================================
-   PERFIL Y SUBIDA DE IMÁGENES A GOOGLE DRIVE
+   PERFIL
 ============================================================ */
-let profile = { name:'Carlos Ruiz', avatar: AVATAR_IMAGES[0], theme:'dark' };
+let profile = { name:'Carlos Ruiz', avatar: AVATAR_IMAGES[0], theme:'dark', restAlerts: true };
 let selectedAvatar = AVATAR_IMAGES[0];
+
+/* ---- Aviso al terminar el descanso: notificación + vibración ---- */
+function restAlertsOn(){ return !profile || profile.restAlerts !== false; }
+function notificationsSupported(){ return typeof window !== 'undefined' && 'Notification' in window; }
+function notificationState(){
+  if(!notificationsSupported()) return 'unsupported';
+  return Notification.permission; // granted | denied | default
+}
+function requestNotificationPermission(){
+  if(!notificationsSupported()) return Promise.resolve('unsupported');
+  try{
+    if(Notification.permission === 'granted' || Notification.permission === 'denied') return Promise.resolve(Notification.permission);
+    const p = Notification.requestPermission();
+    return (p && typeof p.then === 'function') ? p : Promise.resolve('default');
+  }catch(err){ return Promise.resolve('default'); }
+}
+function vibratePhone(pattern){
+  try{ if(navigator && typeof navigator.vibrate === 'function') navigator.vibrate(pattern); }catch(err){}
+}
+function notifyRestFinished(){
+  if(!restAlertsOn()) return;
+  vibratePhone([260,120,260,120,480]);
+  if(notificationState() !== 'granted') return;
+  try{
+    const opts = { body:'Descanso completado. ¡A por la siguiente serie!', tag:'pulsefit-rest' };
+    if(typeof profile.avatar === 'string' && /^https?:\/\//i.test(profile.avatar)) opts.icon = profile.avatar;
+    const n = new Notification('Descanso terminado · PulseFit', opts);
+    setTimeout(()=>{ try{ n.close(); }catch(err){} }, 9000);
+  }catch(err){}
+}
+function renderRestAlertSetting(){
+  const cb = document.getElementById('profileRestAlerts');
+  if(cb) cb.checked = restAlertsOn();
+  const hint = document.getElementById('restAlertHint');
+  if(!hint) return;
+  const state = notificationState();
+  hint.textContent = state === 'granted' ? 'Notificaciones activadas'
+    : state === 'denied' ? 'Bloqueadas en el navegador (la vibración sí funciona)'
+    : state === 'unsupported' ? 'Este navegador no admite notificaciones'
+    : 'Se pedirá permiso al activarlo';
+}
+function onRestAlertsToggle(){
+  const cb = document.getElementById('profileRestAlerts');
+  profile.restAlerts = !!(cb && cb.checked);
+  persistLocalData();
+  if(profile.restAlerts){
+    requestNotificationPermission().then(()=>renderRestAlertSetting());
+    toast('Aviso de descanso activado');
+  } else {
+    renderRestAlertSetting();
+    toast('Aviso de descanso desactivado');
+  }
+}
+function testRestAlert(){
+  if(!restAlertsOn()){ toast('Activa primero el aviso de descanso'); return; }
+  vibratePhone([220,100,220,100,360]);
+  requestNotificationPermission().then(perm=>{
+    if(perm === 'granted'){
+      try{ new Notification('Prueba · PulseFit', { body:'Así se te avisará al terminar el descanso.', tag:'pulsefit-rest-test' }); }catch(err){}
+      toast('Aviso de prueba enviado');
+    } else if(perm === 'denied'){
+      toast('Vibración enviada · notificaciones bloqueadas');
+    } else {
+      toast('Vibración enviada');
+    }
+    renderRestAlertSetting();
+  });
+}
 
 function setAppTheme(theme){
   theme=theme==='light'?'light':'dark';document.documentElement.dataset.theme=theme;profile.theme=theme;
@@ -2250,8 +2353,10 @@ function renderThemeChoice(){
 }
 
 function renderProfileHeader(){
-  document.getElementById('profileAvatar').src = profile.avatar;
-  document.getElementById('profileName').textContent = profile.name;
+  const avatar = document.getElementById('profileAvatar');
+  if(avatar) avatar.src = profile.avatar || AVATAR_IMAGES[0];
+  const name = document.getElementById('profileName');
+  if(name) name.textContent = profile.name || 'Atleta';
 }
 
 function renderAvatarPicker(){
@@ -2268,9 +2373,12 @@ function selectAvatar(i){
 
 function openProfileEditor(){
   selectedAvatar = profile.avatar;
-  document.getElementById('profileNameInput').value = profile.name;
+  document.getElementById('profileNameInput').value = profile.name || '';
   renderThemeChoice();
   renderAvatarPicker();
+  renderRestAlertSetting();
+  const status = document.getElementById('profileImageStatus');
+  if(status) status.textContent = 'JPG, PNG o WebP · Drive al sincronizar';
   document.getElementById('profileSheet').classList.add('open');
   document.getElementById('profileBackdrop').classList.add('open');
 }
@@ -2280,7 +2388,7 @@ function closeProfileEditor(){
   document.getElementById('profileBackdrop').classList.remove('open');
 }
 
-function compressImageToBase64(file, done){
+function handleImageFile(file, done){
   if(!file) return;
   if(!file.type || !file.type.startsWith('image/')){toast('Selecciona un archivo de imagen');return;}
   const reader=new FileReader();
@@ -2288,94 +2396,58 @@ function compressImageToBase64(file, done){
     const img=new Image();
     img.onload=()=>{
       const max=720, scale=Math.min(1,max/Math.max(img.width,img.height));
-      const canvas=document.createElement('canvas');
-      canvas.width=Math.max(1,Math.round(img.width*scale));
-      canvas.height=Math.max(1,Math.round(img.height*scale));
-      const ctx=canvas.getContext('2d');
-      ctx.drawImage(img,0,0,canvas.width,canvas.height);
+      const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));
+      const ctx=canvas.getContext('2d');ctx.drawImage(img,0,0,canvas.width,canvas.height);
       done(canvas.toDataURL('image/jpeg',0.84));
     };
     img.src=reader.result;
   };
   reader.readAsDataURL(file);
 }
-
-/**
- * Sube una imagen en Base64 a la carpeta PulseFit_Images de Google Drive
- * a través del Web App de Google Apps Script y devuelve su URL pública.
- */
-async function uploadImageToGoogleDrive(base64DataUrl, labelPrefix, statusEl) {
-  if (!gsConfig.url) {
-    toast('Configura primero la URL de tu Google Sheet / Drive en "Local"');
-    if (statusEl) statusEl.textContent = 'Sin URL de Drive (guardado local temporal)';
-    return base64DataUrl;
-  }
-  try {
-    if (statusEl) statusEl.textContent = 'Subiendo imagen a Google Drive…';
-    updateSyncStatusUI('syncing', 'Subiendo a Drive…');
-    const res = await fetch(gsConfig.url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({
-        action: 'uploadImage',
-        name: labelPrefix || 'pulsefit_img',
-        base64: base64DataUrl
-      })
-    });
-    const json = await res.json();
-    if (json && json.status === 'ok' && json.url) {
-      updateSyncStatusUI('ok', 'Drive OK');
-      if (statusEl) statusEl.textContent = 'Guardada en Google Drive (PulseFit_Images) ✓';
-      toast('Imagen guardada en tu Google Drive ☁️');
-      return json.url;
-    }
-    throw new Error(json?.message || 'Error al subir a Drive');
-  } catch (err) {
-    console.warn('Error subiendo imagen a Drive:', err);
-    updateSyncStatusUI('err', 'Error Drive');
-    if (statusEl) statusEl.textContent = 'No se pudo subir a Drive (usando copia local)';
-    toast('Error al subir a Drive; se usará copia local');
-    return base64DataUrl;
-  }
-}
-
-function handleExerciseImageUpload(event, mode){
+async function handleExerciseImageUpload(event, mode){
   const file=event.target.files && event.target.files[0]; event.target.value='';
-  compressImageToBase64(file, async data=>{
-    const statusEl = document.getElementById(mode === 'add' ? 'addImageStatus' : 'editImageStatus');
-    const previewEl = document.getElementById(mode === 'add' ? 'addImagePreview' : 'editImagePreview');
-    const exName = (document.getElementById(mode === 'add' ? 'exName' : 'editExName')?.value || 'ejercicio').trim();
-    if(previewEl){ previewEl.src = data; previewEl.hidden = false; }
+  const isAdd = mode === 'add';
+  handleImageFile(file, async data=>{
+    const preview = document.getElementById(isAdd ? 'addImagePreview' : 'editImagePreview');
+    const status = document.getElementById(isAdd ? 'addImageStatus' : 'editImageStatus');
+    if(preview){ preview.src = data; preview.hidden = false; }
+    if(status) status.textContent = gsConfig.url ? 'Subiendo a Google Drive…' : 'Imagen local lista';
 
-    const driveUrl = await uploadImageToGoogleDrive(data, 'ejercicio_' + exName, statusEl);
-    if(mode === 'add'){
-      addCustomImage = driveUrl;
-      if(previewEl) previewEl.src = driveUrl;
-    } else {
-      editCustomImage = driveUrl;
-      if(previewEl) previewEl.src = driveUrl;
-    }
+    const url = await uploadImageToDrive(data, isAdd ? 'ejercicio' : 'ejercicio-edicion');
+    if(isAdd) addCustomImage = url || data;
+    else editCustomImage = url || data;
+
+    if(preview && url) preview.src = url;
+    if(status) status.textContent = url
+      ? 'Guardada en Google Drive'
+      : (gsConfig.url ? 'No se pudo subir ahora (se intentará al sincronizar)' : 'Imagen local · conecta el Sheet para guardarla en Drive');
+    toast(url ? 'Imagen guardada en Drive' : 'Imagen lista');
   });
 }
-
-function handleProfileImageUpload(event){
+async function handleProfileImageUpload(event){
   const file=event.target.files && event.target.files[0];event.target.value='';
-  const statusEl = document.getElementById('profileImageStatus');
-  compressImageToBase64(file, async data=>{
-    const driveUrl = await uploadImageToGoogleDrive(data, 'perfil_' + (profile.name || 'usuario'), statusEl);
-    selectedAvatar = driveUrl;
-    profile.avatar = driveUrl;
+  const status = document.getElementById('profileImageStatus');
+  handleImageFile(file, async data=>{
+    selectedAvatar=data;
+    profile.avatar=data;
     renderAvatarPicker();
     renderProfileHeader();
+    if(status) status.textContent = gsConfig.url ? 'Subiendo a Google Drive…' : 'Imagen local';
+    const url = await uploadImageToDrive(data, 'perfil');
+    if(url){ selectedAvatar=url; profile.avatar=url; renderAvatarPicker(); renderProfileHeader(); }
+    if(status) status.textContent = url ? 'Guardada en Google Drive' : (gsConfig.url ? 'No se pudo subir ahora' : 'Imagen local · conecta el Sheet para guardarla en Drive');
     persistLocalData();
+    toast(url ? 'Foto guardada en Drive' : 'Foto actualizada');
   });
 }
-
 function saveProfile(){
   const name = document.getElementById('profileNameInput').value.trim();
   if(!name){ toast('El nombre no puede estar vacío'); return; }
   profile.name = name;
   profile.avatar = selectedAvatar;
+  const cb = document.getElementById('profileRestAlerts');
+  if(cb) profile.restAlerts = !!cb.checked;
+  if(profile.restAlerts) requestNotificationPermission();
   renderProfileHeader();
   persistLocalData();
   closeProfileEditor();
@@ -2455,7 +2527,7 @@ function closeKeypad(apply){
 }
 
 /* ============================================================
-   RUTINA · DATOS
+   RUTINA · DATOS (VACÍOS EN HTML, CARGADOS DESDE GOOGLE SHEET)
 ============================================================ */
 let routineExercises = [];
 let routineExerciseIdSeq = 1;
@@ -2485,14 +2557,14 @@ function renderRoutineExercises() {
     container.innerHTML = `
       <div class="card" style="text-align:center;padding:22px 16px;color:var(--muted)">
         <b style="display:block;color:var(--txt);margin-bottom:4px;font-size:13px">Sin ejercicios en esta rutina</b>
-        <span style="font-size:12px;display:block;margin-bottom:12px">Añade ejercicios desde tu biblioteca o sincroniza con Google Sheets.</span>
+        <span style="font-size:12px;display:block;margin-bottom:12px">Añade ejercicios desde tu biblioteca o carga las rutinas desde Google Sheets.</span>
         <button class="btn btn-primary" style="padding:10px 14px;margin:auto" onclick="openAddExSheet()">+ Añadir ejercicio</button>
       </div>`;
     return;
   }
 
   let html = routineExercises.map((ex, index) => {
-    const imgSrc = resolveExerciseImage(ex.img);
+    const imgSrc = exerciseImg(ex.img);
 
     const setsHtml = (ex.sets || []).map((s, i) => {
       if (editRoutineMode) {
@@ -2636,7 +2708,7 @@ function renderAddExList(){
   }
   el.innerHTML = exercises.map(e => {
     const c = MUSCLE_COLORS[e.muscle] || MUSCLE_COLORS['Pecho'];
-    const img = resolveExerciseImage(e.img);
+    const img = exerciseImg(e.img);
     return `
       <div class="ex-lib-item pick" onclick="addExerciseToRoutine(${e.id})">
         <img class="eli-thumb" src="${img}" alt="">
@@ -2740,39 +2812,74 @@ function addSet(btn, restSec = 120){
    DESCANSO (SESIÓN ACTIVA)
 ============================================================ */
 let restInterval = null;
+let restTimeout = null;
 let restLeft = 0;
 let restTotal = 0;
+let restEndsAt = 0;
+let restRunning = false;
 
 function startRest(sec){
-  clearInterval(restInterval);
-  restTotal = sec;
-  restLeft = sec;
+  const total = Math.max(1, Math.round(Number(sec) || 120));
+  stopRestTimer(false);
+  restRunning = true;
+  restTotal = total;
+  restLeft = total;
+  restEndsAt = Date.now() + total * 1000;
   updateRestUI();
-  document.getElementById('restFloat').classList.add('open');
+  const floatEl = document.getElementById('restFloat');
+  if(floatEl) floatEl.classList.add('open');
 
-  restInterval = setInterval(() => {
-    restLeft--;
-    if(restLeft <= 0){
-      clearInterval(restInterval);
-      document.getElementById('restFloat').classList.remove('open');
-      toast('¡Descanso terminado!');
-      return;
-    }
-    updateRestUI();
-  }, 1000);
+  // Permiso de notificaciones (si el aviso está activado)
+  if(restAlertsOn()) requestNotificationPermission();
+
+  restInterval = setInterval(tickRest, 250);
+  restTimeout = setTimeout(finishRest, total * 1000 + 60);
+}
+
+function tickRest(){
+  if(!restRunning) return;
+  restLeft = Math.max(0, Math.ceil((restEndsAt - Date.now()) / 1000));
+  if(restLeft <= 0){ finishRest(); return; }
+  updateRestUI();
+}
+
+function stopRestTimer(closeFloat = true){
+  restRunning = false;
+  if(restInterval){ clearInterval(restInterval); restInterval = null; }
+  if(restTimeout){ clearTimeout(restTimeout); restTimeout = null; }
+  if(closeFloat){
+    const el = document.getElementById('restFloat');
+    if(el) el.classList.remove('open');
+  }
+}
+
+function finishRest(){
+  if(!restRunning) return;
+  stopRestTimer(true);
+  restLeft = 0;
+  notifyRestFinished();
+  toast('¡Descanso terminado!');
 }
 
 function updateRestUI(){
-  const m = Math.floor(restLeft / 60);
-  const s = restLeft % 60;
-  document.getElementById('rfTime').textContent = m + ':' + String(s).padStart(2, '0');
-  document.getElementById('rfProgress').style.width = ((restLeft / restTotal) * 100) + '%';
+  const el = document.getElementById('rfTime');
+  if(el){
+    const m = Math.floor(Math.max(0, restLeft) / 60);
+    const s = Math.max(0, restLeft) % 60;
+    el.textContent = m + ':' + String(s).padStart(2, '0');
+  }
+  const bar = document.getElementById('rfProgress');
+  if(bar) bar.style.width = ((restTotal ? Math.max(0, restLeft) / restTotal : 0) * 100) + '%';
 }
 
 function skipRest(){
-  clearInterval(restInterval);
-  document.getElementById('restFloat').classList.remove('open');
+  stopRestTimer(true);
 }
+
+// Si el móvil suspende la pestaña, al volver recalculamos el tiempo real
+document.addEventListener('visibilitychange', () => {
+  if(restRunning && !document.hidden) tickRest();
+});
 
 /* ============================================================
    SESIÓN ACTIVA
@@ -2785,8 +2892,8 @@ function renderActiveSessionCards(){
   if(!container) return;
   if(countEl) countEl.textContent = routineExercises.length;
 
-  container.innerHTML = routineExercises.map((ex) => {
-    const imgSrc = resolveExerciseImage(ex.img);
+  container.innerHTML = routineExercises.map((ex, exIndex) => {
+    const imgSrc = exerciseImg(ex.img);
     const restSec = ex.restSeconds || 120;
     const sets = (Array.isArray(ex.sets) && ex.sets.length)
       ? ex.sets
@@ -2808,7 +2915,7 @@ function renderActiveSessionCards(){
     }).join('');
 
     return `
-      <div class="ex-card" data-muscle="${escapeHtml(ex.muscle || 'Pecho')}">
+      <div class="ex-card" data-muscle="${escapeHtml(ex.muscle || 'Pecho')}" data-name="${escapeHtml(ex.name || 'Ejercicio')}" data-img="${escapeHtml(imageKeyForStorage(ex.img))}" data-order="${exIndex + 1}">
         <div class="ec-head">
           <div class="ex-image" style="background-image:url('${imgSrc}')"></div>
           <div class="ec-title">
@@ -2851,38 +2958,73 @@ function startSession(){
   document.getElementById('tabbar').classList.add('hide');
 }
 
+function activeRoutineFolderName(){
+  if(!activeStoredRoutineRef) return '';
+  const f=folders.find(x=>x.id===activeStoredRoutineRef.folderId);
+  return f?f.name:'';
+}
+
 function endSession(){
   if(!sessionStart){toast('No hay una sesión activa');return;}
   const elapsed=Math.max(0,Math.floor((Date.now()-sessionStart)/1000));
   const cards=[...document.querySelectorAll('#s-active .ex-card')];
   let completed=0, volume=0, reps=0;
   const muscleSeries={Pecho:0,Espalda:0,Piernas:0,Hombros:0,Brazos:0,Core:0};
+  const exercisesDetail=[];
 
   cards.forEach(card=>{
-    const muscle=card.dataset.muscle;
+    const muscle=card.dataset.muscle||'Pecho';
     const rows=[...card.querySelectorAll('.set-row')];
+    const doneSets=[];
+
     rows.forEach(r=>{
       const isDone=r.querySelector('.check')?.classList.contains('on');
-      if(isDone){
-        completed++;
-        const inputs=r.querySelectorAll('input.num-input');
-        const w=parseFloat(inputs[0]?.value)||0;
-        const rep=parseFloat(inputs[1]?.value)||0;
-        volume += w * rep;
-        reps += rep;
-        if(muscle in muscleSeries) muscleSeries[muscle]++;
-      }
+      if(!isDone) return;
+      const inputs=r.querySelectorAll('input.num-input');
+      const w=parseFloat(inputs[0]?.value)||0;
+      const rep=parseFloat(inputs[1]?.value)||0;
+      completed++;
+      volume += w*rep;
+      reps += rep;
+      if(muscle in muscleSeries) muscleSeries[muscle]++;
+      doneSets.push({
+        set: doneSets.length+1,
+        weight: Math.round(w*10)/10,
+        reps: rep,
+        volume: Math.round(w*rep*10)/10
+      });
+    });
+
+    if(!doneSets.length) return;
+    const exReps=doneSets.reduce((s,x)=>s+x.reps,0);
+    const exVolume=Math.round(doneSets.reduce((s,x)=>s+x.volume,0)*10)/10;
+    const note=String(card.querySelector('.note-field')?.value||'').trim();
+
+    exercisesDetail.push({
+      name: card.dataset.name || 'Ejercicio',
+      muscle: muscle,
+      img: card.dataset.img || 'generic',
+      sets: doneSets,
+      reps: exReps,
+      volume: exVolume,
+      note: note
     });
   });
 
   const fmtTime=n=>{const h=Math.floor(n/3600),m=Math.floor((n%3600)/60),sec=n%60;return h?`${h} h ${m} min`:`${m} min ${sec} s`;};
   window.pendingWorkoutSummary={
-    date:TODAY_ISO,
+    id:'w-'+Date.now(),
+    date:isoDate(new Date()),
+    startedAt:new Date(sessionStart).toISOString(),
+    finishedAt:new Date().toISOString(),
     duration:Math.max(1,Math.round(elapsed/60)),
     volume:Math.round(volume),
     name:activeRoutineName||'Entrenamiento',
+    folder:activeRoutineFolderName(),
     sets:completed,
     reps,
+    notes:'',
+    exercises:exercisesDetail,
     muscleSeries,
     source:'logged'
   };
@@ -2892,16 +3034,30 @@ function endSession(){
       <div class="history-detail-metric"><b>${fmtTime(elapsed)}</b><span>DURACIÓN</span></div>
       <div class="history-detail-metric"><b>${Math.round(volume).toLocaleString('es-ES')} kg</b><span>VOLUMEN</span></div>
       <div class="history-detail-metric"><b>${completed}</b><span>SERIES COMPLETADAS</span></div>
-      <div class="history-detail-metric"><b>${reps}</b><span>REPETICIONES</span></div>
-    </div>`;
+      <div class="history-detail-metric"><b>${exercisesDetail.length}</b><span>EJERCICIOS</span></div>
+    </div>
+    <p style="font-size:11.5px;color:var(--muted);margin-top:12px;line-height:1.5">Se guardará el detalle de cada ejercicio con el peso y las repeticiones de cada serie.</p>`;
   document.getElementById('finishSessionSheet').classList.add('open');
   document.getElementById('finishSessionBackdrop').classList.add('open');
 }
 
 function closeFinishSession(){document.getElementById('finishSessionSheet').classList.remove('open');document.getElementById('finishSessionBackdrop').classList.remove('open');}
-function saveFinishedSession(){if(window.pendingWorkoutSummary){workoutLog.push(window.pendingWorkoutSummary);window.pendingWorkoutSummary=null;persistLocalData();renderChart(currentFilter);renderRecentHistory();renderWorkoutStats();renderStatsScreen();toast('Entrenamiento guardado');}finishSessionCleanup();}
+function saveFinishedSession(){
+  if(window.pendingWorkoutSummary){
+    workoutLog.push(window.pendingWorkoutSummary);
+    window.pendingWorkoutSummary=null;
+    persistLocalData();
+    renderChart(currentFilter);
+    renderRecentHistory();
+    renderWorkoutStats();
+    renderStatsScreen();
+    renderCalendar();
+    toast(gsConfig.url && gsConfig.autoSync ? 'Guardado y sincronizando…' : 'Entrenamiento guardado');
+  }
+  finishSessionCleanup();
+}
 function discardFinishedSession(){window.pendingWorkoutSummary=null;toast('Sesión descartada');finishSessionCleanup();}
-function finishSessionCleanup(){closeFinishSession();sessionStart=null;const timer=document.getElementById('sessionTimer');if(timer)timer.firstChild.textContent='00:00:00';clearInterval(restInterval);document.getElementById('restFloat').classList.remove('open');tab('s-workout');}
+function finishSessionCleanup(){closeFinishSession();sessionStart=null;const timer=document.getElementById('sessionTimer');if(timer)timer.firstChild.textContent='00:00:00';stopRestTimer(true);tab('s-workout');}
 function tick(){
   if(!sessionStart) return;
   const total = Math.floor((Date.now() - sessionStart) / 1000);
@@ -2922,11 +3078,11 @@ function toast(msg){
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 2100);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1900);
 }
 
 /* ============================================================
-   CARPETAS Y RUTINAS
+   CARPETAS Y RUTINAS (VACÍAS EN HTML, CARGADAS DESDE SHEET)
 ============================================================ */
 let folders = [];
 let folderIdSeq = 1;
@@ -2937,7 +3093,7 @@ function renderFolderScroll(){
   if(!el)return;
   if(!folders.length){
     currentFolderId=null;
-    el.innerHTML = `<div style="font-size:12px;color:var(--muted);padding:6px 4px">Sin carpetas locales. Pulsa «Local» arriba para sincronizar con tu Google Sheet.</div>`;
+    el.innerHTML = `<div style="font-size:12px;color:var(--muted);padding:6px 4px">Sin carpetas locales. Pulsa «Local» arriba para cargar desde Google Sheets o «Gestionar» para crear una.</div>`;
     renderWorkoutFolderRoutines();
     return;
   }
@@ -3002,7 +3158,7 @@ function renderWorkoutFolderRoutines(){
     el.innerHTML=`
       <div class="card" style="text-align:center;padding:22px 16px">
         <b style="font-size:13.5px">No hay rutinas cargadas</b>
-        <p style="font-size:12px;color:var(--muted);margin:6px 0 14px">Vincula tu Google Sheet y pulsa «Sincronizar ahora» para importar los ejercicios básicos y las rutinas de ejemplo.</p>
+        <p style="font-size:12px;color:var(--muted);margin:6px 0 14px">Vincula tu Google Sheet y pulsa «Cargar de Sheet» para importar los ejercicios básicos y las rutinas de ejemplo.</p>
         <div style="display:flex;gap:8px;justify-content:center">
           <button class="btn btn-primary" style="padding:10px 14px" onclick="openCloudSheet()">Sincronizar Sheet</button>
           <button class="btn btn-ghost" style="padding:10px 14px" onclick="openFolderManager()">Crear carpeta</button>
@@ -3206,7 +3362,7 @@ function renderStatsScreen(){
 }
 
 /* ============================================================
-   BIBLIOTECA DE EJERCICIOS
+   BIBLIOTECA DE EJERCICIOS (VACÍA EN HTML, CARGADA DESDE SHEET)
 ============================================================ */
 const MUSCLE_COLORS = {
   'Pecho':   {bg:'rgba(59,130,246,.12)',  color:'#3B82F6'},
@@ -3242,8 +3398,8 @@ function refreshImgPicker(containerId, selected){
   });
 }
 
-function pickAddImg(k){ addSelectedImg = k; addCustomImage = null; refreshImgPicker('addImgPicker', k); }
-function pickEditImg(k){ editSelectedImg = k; editCustomImage = null; refreshImgPicker('editExImgPicker', k); }
+function pickAddImg(k){ addSelectedImg = k; refreshImgPicker('addImgPicker', k); }
+function pickEditImg(k){ editSelectedImg = k; refreshImgPicker('editExImgPicker', k); }
 
 function initImgPickers(){
   renderImgPicker('addImgPicker', addSelectedImg, 'pickAddImg');
@@ -3259,14 +3415,14 @@ function renderExerciseList(){
       <div class="card" style="text-align:center;padding:22px 16px;color:var(--muted)">
         <b style="display:block;color:var(--txt);margin-bottom:4px;font-size:13px">Biblioteca vacía</b>
         <span style="font-size:12px;display:block;margin-bottom:12px">Sincroniza con tu Google Sheet para descargar los 18 ejercicios básicos o añade uno manualmente arriba.</span>
-        <button class="btn btn-primary" style="padding:10px 14px;margin:auto" onclick="openCloudSheet()">Sincronizar con Google Sheet</button>
+        <button class="btn btn-primary" style="padding:10px 14px;margin:auto" onclick="openCloudSheet()">Cargar desde Google Sheet</button>
       </div>`;
     return;
   }
 
   el.innerHTML = exercises.map(e => {
     const c = MUSCLE_COLORS[e.muscle] || MUSCLE_COLORS['Pecho'];
-    const img = resolveExerciseImage(e.img);
+    const img = exerciseImg(e.img);
     return `
       <div class="ex-lib-item">
         <img class="eli-thumb" src="${img}" alt="">
@@ -3297,7 +3453,7 @@ function addExercise(){
   });
   addCustomImage = null;
   const addPreview = document.getElementById('addImagePreview'); if(addPreview){addPreview.hidden=true;addPreview.removeAttribute('src');}
-  const addStatus = document.getElementById('addImageStatus'); if(addStatus) addStatus.textContent='Se guarda en tu carpeta PulseFit_Images';
+  const addStatus = document.getElementById('addImageStatus'); if(addStatus) addStatus.textContent='JPG, PNG o WebP';
   persistLocalData();
 
   nameInput.value = '';
@@ -3320,9 +3476,10 @@ function openEditExercise(id){
   editingExerciseId = id;
   document.getElementById('editExName').value = ex.name;
   document.getElementById('editExMuscle').value = ex.muscle;
-  const isCustom = isExternalOrDataImage(ex.img);
-  editSelectedImg = !isCustom && ex.img ? ex.img : 'generic';
-  editCustomImage = isCustom ? ex.img : null;
+  const rawImg = ex.img ? String(ex.img) : '';
+  const isKey = rawImg && !rawImg.startsWith('data:image/') && !/^https?:\/\//i.test(rawImg);
+  editSelectedImg = isKey ? rawImg : 'generic';
+  editCustomImage = (rawImg && !isKey) ? rawImg : null;
   refreshImgPicker('editExImgPicker', editSelectedImg);
   const ep=document.getElementById('editImagePreview'); if(ep){ep.src=editCustomImage||'';ep.hidden=!editCustomImage;}
   document.getElementById('editExSheet').classList.add('open');
@@ -3352,7 +3509,7 @@ function saveEditExercise(){
 }
 
 /* ============================================================
-   MEDIDAS CORPORALES
+   MEDIDAS CORPORALES (VACÍAS POR DEFECTO)
 ============================================================ */
 let userHeight = 180;
 let bodyRecords = [];
@@ -3533,7 +3690,7 @@ function addMeasureRecord(){
 }
 
 /* ============================================================
-   CALENDARIO
+   CALENDARIO (HISTORIAL VACÍO POR DEFECTO)
 ============================================================ */
 let workoutLog = [];
 let calCursor = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
@@ -3556,7 +3713,7 @@ function renderCalendar(){
   document.getElementById('calMonthLabel').textContent = monthNames[m].charAt(0).toUpperCase() + monthNames[m].slice(1) + ' ' + y;
 
   const wMap = {};
-  recordedWorkouts().forEach(w => { wMap[w.date] = w; });
+  recordedWorkouts().forEach(w => { (wMap[w.date] = wMap[w.date] || []).push(w); });
 
   const firstDay = new Date(y, m, 1);
   const startOffset = (firstDay.getDay() + 6) % 7;
@@ -3605,25 +3762,30 @@ function renderCalDetail(){
     el.innerHTML = `<div class="card" style="margin-top:12px;text-align:center;color:var(--muted);font-size:12px;padding:16px">Toca un día marcado para ver el entrenamiento</div>`;
     return;
   }
-  const w = recordedWorkouts().find(x => x.date === selectedCalDate);
-  if (!w) { el.innerHTML = ''; return; }
+  const dayWorkouts = recordedWorkouts()
+    .filter(x => x.date === selectedCalDate)
+    .sort((a,b)=>String(a.startedAt||'').localeCompare(String(b.startedAt||'')));
+  if (!dayWorkouts.length) { el.innerHTML = ''; return; }
   const d = parseISO(selectedCalDate);
-  el.innerHTML = `
+  const dayLabel = d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
+
+  el.innerHTML = dayWorkouts.map((w, i) => `
     <div class="card" style="margin-top:12px">
       <div class="hist-top">
         <div>
-          <h3>${escapeHtml(w.name)}</h3>
-          <div class="date">${d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' })}</div>
+          <h3>${escapeHtml(w.name || 'Entrenamiento')}</h3>
+          <div class="date">${escapeHtml(dayLabel)}${dayWorkouts.length > 1 ? ' · sesión ' + (i + 1) : ''}</div>
         </div>
-        <div class="pr-badge">${w.duration} min</div>
+        <div class="pr-badge">${Number(w.duration) || 0} min</div>
       </div>
       <div class="hist-metrics">
         <div class="hm"><b>${formatDurationMinutes(w.duration)}</b><span>tiempo</span></div>
-        <div class="hm"><b>${w.volume.toLocaleString('es-ES')} kg</b><span>volumen</span></div>
+        <div class="hm"><b>${fmtKgNumber(w.volume)} kg</b><span>volumen</span></div>
+        <div class="hm"><b>${Number(w.sets) || 0}</b><span>series</span></div>
       </div>
-      <button class="btn btn-ghost" style="width:100%;padding:10px;margin-top:12px" onclick="showWorkoutDetail('${selectedCalDate}')">Ver detalle</button>
+      <button class="btn btn-ghost" style="width:100%;padding:10px;margin-top:12px" onclick="showWorkoutDetail('${workoutKey(w)}')">Ver ejercicios y pesos</button>
     </div>
-  `;
+  `).join('');
 }
 
 function escapeHtml(str){
@@ -3631,24 +3793,43 @@ function escapeHtml(str){
 }
 
 /* ============================================================
-   SINCRONIZACIÓN BIDIRECCIONAL + GOOGLE DRIVE
+   PERSISTENCIA LOCAL Y SINCRONIZACIÓN CON GOOGLE SHEETS
 ============================================================ */
-const LOCAL_DATA_KEY = 'pulsefit-local-v4-bidir';
+const LOCAL_DATA_KEY = 'pulsefit-local-v3-clean';
 const GS_CONFIG_KEY = 'pulsefit-gs-config-v1';
 let gsConfig = { url: '', autoSync: true, lastSync: null };
-let localUpdatedAt = null;
 let syncDebounceTimer = null;
-let isSyncingNow = false;
 
-const APPS_SCRIPT_TEMPLATE = `// 1. Pega el archivo Codigo.gs en tu Google Sheet (Extensiones > Apps Script).
-// 2. Nueva implementación > Aplicación web (Ejecutar como: Yo | Acceso: Cualquier persona).
-// 3. Concede permisos de Google Sheets y Google Drive al autorizar.
-// 4. Las imágenes subidas se guardan automáticamente en la carpeta "PulseFit_Images" de tu Drive.`;
+const APPS_SCRIPT_TEMPLATE = `PASOS PARA CONECTAR TU GOOGLE SHEET
+
+1. Abre tu Google Sheet → Extensiones → Apps Script.
+2. Borra lo que haya y pega el archivo Codigo.gs (versión 2) completo.
+3. Guarda y ejecuta una vez la función inicializarBaseDeDatos.
+   (Autoriza los permisos de Google Sheets y de Google Drive.)
+4. Implementar → Nueva implementación → Aplicación web.
+   · Ejecutar como: Yo
+   · Quién tiene acceso: Cualquier persona
+5. Copia la URL que termina en /exec y pégala en el campo de arriba.
+6. Pulsa "Enviar a Sheet".
+
+HOJAS QUE SE CREAN (todo en columnas, sin JSON)
+· Ejercicios · Carpetas · Rutinas · Rutina_Ejercicios · Rutina_Series
+· Entrenamientos · Entrenamiento_Ejercicios · Entrenamiento_Series
+· Medidas · Perfil · Imagenes
+
+ENTRENAMIENTOS
+Cada sesión guarda una fila en Entrenamientos y el detalle completo
+(ejercicio, serie, peso y repeticiones) en Entrenamiento_Ejercicios
+y Entrenamiento_Series.
+
+IMÁGENES
+Las fotos que subas se guardan en tu Drive, en la carpeta
+"PulseFit · Imágenes", y su enlace queda en la hoja Imagenes.`;
 
 function getFullAppState(){
   return {
     version: 4,
-    updatedAt: localUpdatedAt || new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     exercises,
     exerciseIdSeq,
     profile,
@@ -3662,60 +3843,65 @@ function getFullAppState(){
   };
 }
 
+function nextIdSeq(seq, ids){
+  const max=(ids||[]).reduce((m,id)=>{ const n=Number(id); return Number.isFinite(n)&&n>m?n:m; },0);
+  return Math.max(1, Number(seq)||0, max+1);
+}
+
 function applyFullAppState(d){
   if(!d || typeof d !== 'object') return;
   if(Array.isArray(d.exercises)) exercises=d.exercises;
-  if(Number.isFinite(d.exerciseIdSeq)) exerciseIdSeq=d.exerciseIdSeq;
-  if(d.profile && typeof d.profile.name==='string') profile=d.profile;
   if(Array.isArray(d.workoutLog)) workoutLog=d.workoutLog;
   if(Array.isArray(d.bodyRecords)) bodyRecords=d.bodyRecords;
-  if(Number.isFinite(d.userHeight)) userHeight=d.userHeight;
   if(Array.isArray(d.folders)) folders=d.folders;
-  if(Number.isFinite(d.folderIdSeq)) folderIdSeq=d.folderIdSeq;
   if(Array.isArray(d.routineExercises)) routineExercises=d.routineExercises;
-  if(Number.isFinite(d.routineExerciseIdSeq)) routineExerciseIdSeq=d.routineExerciseIdSeq;
-  if(d.updatedAt) localUpdatedAt = d.updatedAt;
+  if(Number.isFinite(Number(d.userHeight)) && Number(d.userHeight)>0) userHeight=Number(d.userHeight);
+
+  if(d.profile && typeof d.profile==='object'){
+    profile = {
+      name: (typeof d.profile.name==='string' && d.profile.name.trim()) ? d.profile.name : profile.name,
+      avatar: (typeof d.profile.avatar==='string' && d.profile.avatar) ? d.profile.avatar : profile.avatar,
+      theme: d.profile.theme==='light' ? 'light' : 'dark',
+      restAlerts: d.profile.restAlerts !== false
+    };
+  }
+
+  exerciseIdSeq = nextIdSeq(d.exerciseIdSeq, exercises.map(e=>e.id));
+  folderIdSeq = nextIdSeq(d.folderIdSeq, folders.map(f=>f.id));
+  const routineIds=[];
+  folders.forEach(f=>(f.routines||[]).forEach(r=>(r.exerciseData||[]).forEach(e=>routineIds.push(e.id))));
+  routineExerciseIdSeq = nextIdSeq(d.routineExerciseIdSeq, routineIds);
 }
 
-/**
- * Fusiona los datos remotos del Google Sheet con los datos locales para no perder
- * ni cambios hechos en la hoja ni entrenamientos registrados en el teléfono.
- */
-function mergeRemoteAndLocalStates(remote, local) {
-  if (!remote) return local;
-  const localEmpty = (!local.exercises || !local.exercises.length) && (!local.folders || !local.folders.length);
-  if (localEmpty) return remote;
-
-  const rTime = remote.updatedAt ? new Date(remote.updatedAt).getTime() : 0;
-  const lTime = local.updatedAt ? new Date(local.updatedAt).getTime() : 0;
-  const preferRemote = rTime >= lTime;
-
-  const merged = JSON.parse(JSON.stringify(preferRemote ? remote : local));
-
-  // Fusionar ejercicios por ID (priorizando la fuente más reciente o nuevas filas añadidas en Sheet)
-  const exMap = new Map();
-  (preferRemote ? local.exercises : remote.exercises || []).forEach(e => exMap.set(Number(e.id), e));
-  (preferRemote ? remote.exercises : local.exercises || []).forEach(e => exMap.set(Number(e.id), e));
-  merged.exercises = Array.from(exMap.values());
-  merged.exerciseIdSeq = Math.max(remote.exerciseIdSeq || 1, local.exerciseIdSeq || 1, ...merged.exercises.map(e => (Number(e.id) || 0) + 1));
-
-  // Fusionar historial de entrenamientos por clave única (fecha + nombre + volumen)
-  const wMap = new Map();
-  [...(remote.workoutLog || []), ...(local.workoutLog || [])].forEach(w => {
-    if (!w || !w.date) return;
-    const key = `${w.date}_${w.name}_${w.duration}_${w.volume}`;
-    wMap.set(key, w);
-  });
-  merged.workoutLog = Array.from(wMap.values()).sort((a, b) => a.date.localeCompare(b.date));
-
-  // Fusionar medidas corporales por fecha
-  const mMap = new Map();
-  (preferRemote ? local.bodyRecords : remote.bodyRecords || []).forEach(r => { if(r?.date) mMap.set(r.date, r); });
-  (preferRemote ? remote.bodyRecords : local.bodyRecords || []).forEach(r => { if(r?.date) mMap.set(r.date, r); });
-  merged.bodyRecords = Array.from(mMap.values()).sort((a, b) => a.date.localeCompare(b.date));
-
-  merged.updatedAt = new Date().toISOString();
-  return merged;
+/* ============================================================
+   IMÁGENES → GOOGLE DRIVE
+============================================================ */
+function isLocalImageData(v){
+  return typeof v==='string' && /^data:image\/(jpeg|jpg|png|webp);base64,/i.test(v);
+}
+function safeFileName(base){
+  return String(base||'imagen').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-zA-Z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'imagen';
+}
+async function uploadImageToDrive(dataUrl, baseName){
+  if(!gsConfig.url || !isLocalImageData(dataUrl)) return null;
+  const m=dataUrl.match(/^data:(image\/[a-z0-9.+-]+);base64,(.+)$/i);
+  if(!m) return null;
+  try{
+    const res=await fetch(gsConfig.url,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({
+        action:'uploadImage',
+        fileName:safeFileName(baseName)+'-'+Date.now()+'.jpg',
+        mimeType:m[1],
+        dataBase64:m[2]
+      })
+    });
+    const json=await res.json();
+    if(json && json.status==='ok' && json.url) return json.url;
+  }catch(err){ console.warn('No se pudo subir la imagen a Drive', err); }
+  return null;
 }
 
 function refreshAllViews(){
@@ -3724,18 +3910,15 @@ function refreshAllViews(){
   renderWorkoutFolderRoutines();
   renderExerciseList();
   renderRoutineExercises();
-  renderChart(currentFilter);
   renderMeasureChart();
   renderMeasureRecords();
   renderCalendar();
   renderRecentHistory();
   renderWorkoutStats();
-  renderStatsScreen();
 }
 
 function persistLocalData(skipCloud = false){
   try{
-    if(!skipCloud) localUpdatedAt = new Date().toISOString();
     localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(getFullAppState()));
     if(!skipCloud && gsConfig.url && gsConfig.autoSync){
       scheduleCloudPush();
@@ -3763,7 +3946,7 @@ function updateSyncStatusUI(state, label){
   if(state === 'ok') pill.classList.add('ok');
   else if(state === 'syncing') pill.classList.add('syncing');
   else if(state === 'err') pill.classList.add('err');
-  txt.textContent = label || (gsConfig.url ? 'Sheet ⇄' : 'Local');
+  txt.textContent = label || (gsConfig.url ? 'Sheet' : 'Local');
   if(info){
     info.textContent = gsConfig.lastSync
       ? 'Última sincronización: ' + new Date(gsConfig.lastSync).toLocaleString('es-ES')
@@ -3778,7 +3961,7 @@ function openCloudSheet(){
   if(urlInput) urlInput.value = gsConfig.url || '';
   if(autoInput) autoInput.checked = gsConfig.autoSync !== false;
   if(codeBox && !codeBox.textContent) codeBox.textContent = APPS_SCRIPT_TEMPLATE;
-  updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet ⇄' : 'Local');
+  updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet' : 'Local');
   document.getElementById('cloudSheet').classList.add('open');
   document.getElementById('cloudBackdrop').classList.add('open');
 }
@@ -3794,84 +3977,63 @@ function saveGsConfig(){
   gsConfig.url = (urlInput ? urlInput.value.trim() : '');
   gsConfig.autoSync = autoInput ? autoInput.checked : true;
   localStorage.setItem(GS_CONFIG_KEY, JSON.stringify(gsConfig));
-  updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet ⇄' : 'Local');
+  updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet' : 'Local');
 }
 
 function copyAppsScriptCode(){
-  navigator.clipboard.writeText(APPS_SCRIPT_TEMPLATE).then(() => toast('Nota copiada'));
+  navigator.clipboard.writeText(APPS_SCRIPT_TEMPLATE).then(() => toast('Instrucciones copiadas'));
 }
 
 function scheduleCloudPush(){
   clearTimeout(syncDebounceTimer);
-  syncDebounceTimer = setTimeout(() => bidirectionalSync(false), 1600);
+  syncDebounceTimer = setTimeout(() => pushToGoogleSheet(false), 1800);
 }
 
-/**
- * Sincronización bidireccional completa:
- * 1. Descarga el estado actual del Sheet (incluyendo ediciones hechas en las celdas de las pestañas).
- * 2. Lo fusiona con el estado local del teléfono.
- * 3. Actualiza las vistas locales y guarda el estado fusionado de vuelta en el Sheet.
- */
-async function bidirectionalSync(manual = false) {
-  if (!gsConfig.url) {
-    if (manual) toast('Pega primero la URL de tu Web App de Google Sheets');
-    return;
+function stateHasLocalImages(state){
+  const check=img=>typeof img==='string'&&img.startsWith('data:image/');
+  if(state.profile && check(state.profile.avatar)) return true;
+  if((state.exercises||[]).some(e=>check(e.img))) return true;
+  for(const f of (state.folders||[])){
+    for(const r of (f.routines||[])){
+      for(const e of (r.exerciseData||[])) if(check(e.img)) return true;
+    }
   }
-  if (isSyncingNow) return;
-  isSyncingNow = true;
-  updateSyncStatusUI('syncing', 'Sincronizando ⇄');
-
-  try {
-    // Paso 1: Leer estado del Google Sheet
-    const getRes = await fetch(gsConfig.url + (gsConfig.url.includes('?') ? '&' : '?') + 't=' + Date.now());
-    const getJson = await getRes.json();
-    const remoteState = (getJson && getJson.state) ? getJson.state : null;
-
-    // Paso 2: Fusionar cambios de Sheet + cambios locales
-    const mergedState = mergeRemoteAndLocalStates(remoteState, getFullAppState());
-    applyFullAppState(mergedState);
-    persistLocalData(true);
-    refreshAllViews();
-
-    // Paso 3: Enviar estado consolidado de vuelta al Google Sheet
-    await fetch(gsConfig.url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'sync', state: getFullAppState() })
-    });
-
-    gsConfig.lastSync = new Date().toISOString();
-    localStorage.setItem(GS_CONFIG_KEY, JSON.stringify(gsConfig));
-    updateSyncStatusUI('ok', 'Sincronizado ⇄');
-    if (manual) toast('Sincronización bidireccional completada ⇄');
-  } catch (err) {
-    console.warn('Error en sincronización bidireccional:', err);
-    updateSyncStatusUI('err', 'Error Sync');
-    if (manual) toast('Error al sincronizar con Google Sheets');
-  } finally {
-    isSyncingNow = false;
-  }
+  return false;
 }
 
 async function pushToGoogleSheet(manual = false){
   if(!gsConfig.url){ if(manual) toast('Pega primero la URL de tu Web App'); return; }
-  updateSyncStatusUI('syncing', 'Enviando…');
+  updateSyncStatusUI('syncing', 'Sincronizando…');
+  const state=getFullAppState();
+  const conImagenes=stateHasLocalImages(state);
   try{
     const res = await fetch(gsConfig.url, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'sync', state: getFullAppState() })
+      body: JSON.stringify({ action: 'sync', state })
     });
-    const json = await res.json();
-    if (json && json.state) {
+    let json = null;
+    try{ json = await res.json(); }catch(err){ json = null; }
+
+    if(json && json.status === 'error') throw new Error(json.message || 'Error del Sheet');
+
+    if(json && json.ignored && json.state){
       applyFullAppState(json.state);
       persistLocalData(true);
       refreshAllViews();
+      if(manual) toast('El Sheet ya tenía datos: se cargaron en la app');
+    } else if(json && Array.isArray(json.imagesFailed) && json.imagesFailed.length){
+      toast('Algunas imágenes no se pudieron subir a Drive');
     }
+
     gsConfig.lastSync = new Date().toISOString();
     localStorage.setItem(GS_CONFIG_KEY, JSON.stringify(gsConfig));
-    updateSyncStatusUI('ok', 'Sincronizado ⇄');
-    if(manual) toast('Datos enviados a Google Sheets');
+    updateSyncStatusUI('ok', 'Sincronizado');
+    if(manual) toast('Guardado en Google Sheets');
+
+    // Si el Sheet subió las imágenes a Drive pero no pudimos leer la respuesta,
+    // recargamos para sustituir el base64 local por los enlaces de Drive.
+    if(conImagenes && json === null) pullFromGoogleSheet(false);
   }catch(err){
     updateSyncStatusUI('err', 'Error');
     if(manual) toast('No se pudo conectar con Google Sheets');
@@ -3886,11 +4048,12 @@ async function pullFromGoogleSheet(manual = false){
     const json = await res.json();
     if(json && json.state && Object.keys(json.state).length){
       applyFullAppState(json.state);
+      if(json.driveFolder) gsConfig.driveFolder = json.driveFolder;
       persistLocalData(true);
       refreshAllViews();
       gsConfig.lastSync = new Date().toISOString();
       localStorage.setItem(GS_CONFIG_KEY, JSON.stringify(gsConfig));
-      updateSyncStatusUI('ok', 'Sincronizado ⇄');
+      updateSyncStatusUI('ok', 'Sincronizado');
       if(manual) toast('Datos cargados desde Google Sheets');
     } else {
       updateSyncStatusUI('ok', 'Vacío');
@@ -3917,13 +4080,7 @@ function importLocalData(event){
 
 restoreLocalData();
 setAppTheme(profile.theme||'dark');
-
-// Sincronización automática al volver a abrir la app o recuperar el foco
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible' && gsConfig.url && gsConfig.autoSync) {
-    bidirectionalSync(false);
-  }
-});
+window.addEventListener('pagehide',()=>{try{persistLocalData();}catch(e){}});
 
 /* ============================================================
    INIT
@@ -3942,12 +4099,12 @@ renderMeasureChart();
 renderMeasureRecords();
 renderProfileHeader();
 renderRoutineChart('3M');
-updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet ⇄' : 'Local');
+updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet' : 'Local');
 render();
 
-// Sincroniza automáticamente al arrancar si la URL del Sheet está configurada
-if (gsConfig.url) {
-  bidirectionalSync(false);
+// Si el usuario ya tiene URL configurada y el almacenamiento local está vacío, descarga automáticamente del Sheet
+if (gsConfig.url && !exercises.length && !folders.length) {
+  pullFromGoogleSheet(false);
 }
 </script>
 </body>
