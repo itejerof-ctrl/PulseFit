@@ -2480,6 +2480,7 @@ async function handleProfileImageUpload(event){
     profile.avatar=data;
     renderAvatarPicker();
     renderProfileHeader();
+    persistLocalData();
     if(status) status.textContent = gsConfig.url ? 'Subiendo a Google Drive…' : 'Imagen local';
     const url = await uploadImageToDrive(data, 'perfil');
     if(url){ selectedAvatar=url; profile.avatar=url; renderAvatarPicker(); renderProfileHeader(); }
@@ -3845,8 +3846,13 @@ function escapeHtml(str){
 ============================================================ */
 const LOCAL_DATA_KEY = 'pulsefit-local-v3-clean';
 const GS_CONFIG_KEY = 'pulsefit-gs-config-v1';
-let gsConfig = { url: '', autoSync: true, lastSync: null };
+let gsConfig = { url: '', autoSync: true, lastSync: null, remoteVersion: '' };
 let syncDebounceTimer = null;
+let localSyncDirty = false;
+let localSyncRevision = 0;
+let cloudPushInFlight = false;
+let cloudPullInFlight = false;
+let cloudSyncTimer = null;
 
 const APPS_SCRIPT_TEMPLATE = `PASOS PARA CONECTAR TU GOOGLE SHEET
 
@@ -3968,8 +3974,10 @@ function refreshAllViews(){
 function persistLocalData(skipCloud = false){
   try{
     localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(getFullAppState()));
-    if(!skipCloud && gsConfig.url && gsConfig.autoSync){
-      scheduleCloudPush();
+    if(!skipCloud){
+      localSyncDirty = true;
+      localSyncRevision++;
+      if(gsConfig.url && gsConfig.autoSync) scheduleCloudPush();
     }
   }catch(err){
     toast('Almacenamiento lleno');
@@ -4026,6 +4034,13 @@ function saveGsConfig(){
   gsConfig.autoSync = autoInput ? autoInput.checked : true;
   localStorage.setItem(GS_CONFIG_KEY, JSON.stringify(gsConfig));
   updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet' : 'Local');
+  if(/\/exec(?:\?|$)/.test(gsConfig.url)) startCloudSyncLoop();
+}
+
+function startCloudSyncLoop(){
+  if(!gsConfig.url) return;
+  if(!cloudSyncTimer) cloudSyncTimer=setInterval(syncFromCloudIfChanged,15000);
+  syncFromCloudIfChanged();
 }
 
 function copyAppsScriptCode(){
@@ -4051,7 +4066,10 @@ function stateHasLocalImages(state){
 
 async function pushToGoogleSheet(manual = false){
   if(!gsConfig.url){ if(manual) toast('Pega primero la URL de tu Web App'); return; }
+  if(cloudPushInFlight) return;
+  cloudPushInFlight = true;
   updateSyncStatusUI('syncing', 'Sincronizando…');
+  const pushRevision=localSyncRevision;
   const state=getFullAppState();
   const conImagenes=stateHasLocalImages(state);
   try{
@@ -4066,13 +4084,24 @@ async function pushToGoogleSheet(manual = false){
     if(json && json.status === 'error') throw new Error(json.message || 'Error del Sheet');
 
     if(json && json.ignored && json.state){
-      applyFullAppState(json.state);
-      persistLocalData(true);
-      refreshAllViews();
+      if(localSyncRevision===pushRevision){
+        applyFullAppState(json.state);
+        persistLocalData(true);
+        refreshAllViews();
+        localSyncDirty=false;
+      }
       if(manual) toast('El Sheet ya tenía datos: se cargaron en la app');
     } else if(json && Array.isArray(json.imagesFailed) && json.imagesFailed.length){
       toast('Algunas imágenes no se pudieron subir a Drive');
     }
+
+    if(json && json.state && localSyncRevision===pushRevision){
+      applyFullAppState(json.state);
+      persistLocalData(true);
+      refreshAllViews();
+    }
+    if(localSyncRevision===pushRevision) localSyncDirty=false;
+    if(json && json.syncVersion) gsConfig.remoteVersion=json.syncVersion;
 
     gsConfig.lastSync = new Date().toISOString();
     localStorage.setItem(GS_CONFIG_KEY, JSON.stringify(gsConfig));
@@ -4082,14 +4111,19 @@ async function pushToGoogleSheet(manual = false){
     // Si el Sheet subió las imágenes a Drive pero no pudimos leer la respuesta,
     // recargamos para sustituir el base64 local por los enlaces de Drive.
     if(conImagenes && json === null) pullFromGoogleSheet(false);
+    if(localSyncDirty && gsConfig.autoSync) scheduleCloudPush();
   }catch(err){
     updateSyncStatusUI('err', 'Error');
     if(manual) toast('No se pudo conectar con Google Sheets');
+  }finally{
+    cloudPushInFlight = false;
   }
 }
 
 async function pullFromGoogleSheet(manual = false){
   if(!gsConfig.url){ if(manual) toast('Pega primero la URL de tu Web App'); return; }
+  if(cloudPullInFlight || cloudPushInFlight || (localSyncDirty && !manual)) return;
+  cloudPullInFlight = true;
   updateSyncStatusUI('syncing', 'Cargando…');
   try{
     const res = await fetch(gsConfig.url + (gsConfig.url.includes('?') ? '&' : '?') + 't=' + Date.now());
@@ -4097,6 +4131,7 @@ async function pullFromGoogleSheet(manual = false){
     if(json && json.state && Object.keys(json.state).length){
       applyFullAppState(json.state);
       if(json.driveFolder) gsConfig.driveFolder = json.driveFolder;
+      if(json.syncVersion) gsConfig.remoteVersion=json.syncVersion;
       persistLocalData(true);
       refreshAllViews();
       gsConfig.lastSync = new Date().toISOString();
@@ -4110,6 +4145,32 @@ async function pullFromGoogleSheet(manual = false){
   }catch(err){
     updateSyncStatusUI('err', 'Error');
     if(manual) toast('Error al leer desde Google Sheets');
+  }finally{
+    cloudPullInFlight = false;
+  }
+}
+
+async function syncFromCloudIfChanged(){
+  if(!gsConfig.url || cloudPullInFlight || cloudPushInFlight || localSyncDirty || syncDebounceTimer) return;
+  cloudPullInFlight=true;
+  try{
+    const url=gsConfig.url+(gsConfig.url.includes('?')?'&':'?')+'t='+Date.now();
+    const res=await fetch(url);
+    const json=await res.json();
+    if(!json || !json.state || !json.syncVersion || json.syncVersion===gsConfig.remoteVersion) return;
+    applyFullAppState(json.state);
+    if(json.driveFolder) gsConfig.driveFolder=json.driveFolder;
+    gsConfig.remoteVersion=json.syncVersion;
+    gsConfig.lastSync=new Date().toISOString();
+    localStorage.setItem(GS_CONFIG_KEY,JSON.stringify(gsConfig));
+    persistLocalData(true);
+    refreshAllViews();
+    render();
+    updateSyncStatusUI('ok','Actualizado');
+  }catch(err){
+    console.warn('No se pudieron consultar los cambios de Google Sheets',err);
+  }finally{
+    cloudPullInFlight=false;
   }
 }
 
@@ -4150,10 +4211,11 @@ renderRoutineChart('3M');
 updateSyncStatusUI(gsConfig.url ? 'ok' : '', gsConfig.url ? 'Sheet' : 'Local');
 render();
 
-// Si el usuario ya tiene URL configurada y el almacenamiento local está vacío, descarga automáticamente del Sheet
-if (gsConfig.url && !exercises.length && !folders.length) {
-  pullFromGoogleSheet(false);
-}
+// Descarga la versión compartida al iniciar y revisa cambios de otros dispositivos.
+if(gsConfig.url) startCloudSyncLoop();
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden) syncFromCloudIfChanged();
+});
 </script>
 </body>
 </html>
