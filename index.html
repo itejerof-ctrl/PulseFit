@@ -277,7 +277,7 @@ svg { display: block; }
   color: var(--txt);
 }
 .period-chips.wide { display: flex; width: 100%; margin-bottom: 12px; }
-.period-chips.wide button { flex: 1; padding: 7px 0; font-size: 11.5px; }
+.period-chips.wide button { flex: 1; padding: 7px 2px; font-size: 10.5px; }
 
 .bars {
   display: flex;
@@ -586,7 +586,7 @@ svg { display: block; }
   border-radius: 6px;
 }
 .set-index { color: var(--muted); font-weight: 500; }
-.set-data { color: var(--txt); font-weight: 600; font-variant-numeric: tabular-nums; }
+.set-data { display: flex; align-items: center; gap: 3px; color: var(--txt); font-weight: 600; font-variant-numeric: tabular-nums; }
 
 .set-edit-row {
   display: flex; align-items: center; gap: 6px;
@@ -708,8 +708,8 @@ svg { display: block; }
   margin-bottom: 12px;
 }
 .ex-image {
-  width: 58px;
-  height: 58px;
+  width: 76px;
+  height: 76px;
   border-radius: 13px;
   background-color: var(--card-2);
   background-size: cover;
@@ -947,7 +947,7 @@ svg { display: block; }
   border: 1px solid var(--line); border-radius: var(--r-md); margin-bottom: 8px;
 }
 .ex-lib-item.pick { cursor: pointer; }
-.eli-thumb { width: 52px; height: 52px; border-radius: 11px; flex-shrink: 0; object-fit: cover; background: var(--card-2); }
+.eli-thumb { width: 64px; height: 64px; border-radius: 12px; flex-shrink: 0; object-fit: cover; background: var(--card-2); }
 .eli-tx { flex: 1; min-width: 0; }
 .eli-tx b { display: block; font-size: 13.5px; font-weight: 600; }
 .eli-tx span { display: inline-block; font-size: 9.5px; font-weight: 600; padding: 2px 7px; border-radius: 5px; margin-top: 4px; }
@@ -1145,7 +1145,7 @@ svg { display: block; }
 }
 .history-ex-head { display: flex; align-items: center; gap: 11px; margin-bottom: 9px; }
 .history-ex-head img {
-  width: 52px; height: 52px; border-radius: 12px; object-fit: cover;
+  width: 70px; height: 70px; border-radius: 14px; object-fit: cover;
   background: var(--card-2); border: 1px solid var(--line); flex-shrink: 0;
 }
 .history-ex-head .hex-tx { flex: 1; min-width: 0; }
@@ -1161,6 +1161,9 @@ svg { display: block; }
   color: var(--muted); font-size: 12px; line-height: 1.55;
 }
 .set-line .set-sub { color: var(--muted); font-weight: 500; font-size: 11px; margin-left: 6px; }
+.history-edit-input { width: 58px; padding: 6px 4px; border-radius: 7px; border: 1px solid var(--line); background: var(--bg-soft); color: var(--txt); font: inherit; text-align: center; }
+.history-date-edit { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 12px; margin: 12px 0; }
+.history-date-edit input { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg-soft); color: var(--txt); font: inherit; }
 .toggle-row small { display: block; color: var(--muted); font-weight: 400; font-size: 10.5px; margin-top: 2px; }
 
 @media (max-width: 460px), (max-height: 880px) {
@@ -1232,18 +1235,21 @@ svg { display: block; }
         </div>
 
         <!-- CHART -->
-        <div class="sec-title"><h2>Progreso semanal</h2></div>
+        <div class="sec-title"><h2>Progreso</h2></div>
         <div class="card chart-card">
           <div class="chart-head">
             <div>
-              <h3>Actividad por día</h3>
+              <h3>Actividad</h3>
               <p id="chartSub">Duración · últimos 3 meses</p>
             </div>
-            <div class="period-chips">
-              <button class="on" onclick="setPeriod(this)">3M</button>
-              <button onclick="setPeriod(this)">6M</button>
-              <button onclick="setPeriod(this)">1A</button>
-            </div>
+          </div>
+
+          <div class="period-chips wide" id="homePeriodChips" aria-label="Periodo del gráfico">
+            <button class="on" data-period="7" onclick="setPeriod(this)">1 sem</button>
+            <button data-period="30" onclick="setPeriod(this)">1 mes</button>
+            <button data-period="90" onclick="setPeriod(this)">3 meses</button>
+            <button data-period="180" onclick="setPeriod(this)">6 meses</button>
+            <button data-period="ALL" onclick="setPeriod(this)">Todo</button>
           </div>
 
           <div class="bars" id="bars"></div>
@@ -2053,12 +2059,13 @@ function workoutExercisesHtml(w){
   if(!list.length) return '';
   return `<div class="sheet-label" style="margin:16px 0 8px">EJERCICIOS Y PESOS UTILIZADOS</div>` + list.map(ex=>{
     const sets=Array.isArray(ex.sets)?ex.sets:[];
+    const exIndex=list.indexOf(ex);
     const setsHtml=sets.length
       ? sets.map((s,i)=>{
           const peso=Number(s.weight)||0;
           const reps=Number(s.reps)||0;
           const vol=(s.volume!==undefined&&s.volume!==null&&s.volume!=='')?Number(s.volume):peso*reps;
-          return `<div class="set-line"><span class="set-index">Serie ${Number(s.set)||i+1}</span><span class="set-data">${fmtKgNumber(peso)} kg × ${reps} reps<span class="set-sub">${fmtKgNumber(vol)} kg</span></span></div>`;
+          return `<div class="set-line"><span class="set-index">Serie ${Number(s.set)||i+1}</span><span class="set-data"><input class="history-edit-input" type="number" min="0" step="0.5" aria-label="Peso de la serie ${i+1} en kg" data-ex="${exIndex}" data-set="${i}" data-field="weight" value="${peso}"> kg × <input class="history-edit-input" type="number" min="0" step="1" aria-label="Repeticiones de la serie ${i+1}" data-ex="${exIndex}" data-set="${i}" data-field="reps" value="${reps}"> reps<span class="set-sub">${fmtKgNumber(vol)} kg</span></span></div>`;
         }).join('')
       : `<div class="set-line" style="justify-content:flex-start"><span class="set-index">Sin series registradas</span></div>`;
     return `<div class="history-ex-block">
@@ -2081,11 +2088,43 @@ function showWorkoutDetail(key){
   const details=workoutExercisesHtml(w);
   const emptyDetail=details?'':`<div class="history-no-detail">Este entrenamiento se guardó antes de la actualización, así que no tiene el detalle de series. Los próximos sí guardarán cada ejercicio con su peso y sus repeticiones.</div>`;
   content.innerHTML=`<div class="history-detail-head"><div><div class="history-detail-title">${escapeHtml(w.name||'Entrenamiento')}</div><div class="history-detail-date">${escapeHtml(dateLabel)}${w.folder?' · '+escapeHtml(w.folder):''}</div></div><div class="pr-badge">SESIÓN</div></div>
+    <label class="history-date-edit">Día del entrenamiento<input id="historyWorkoutDate" type="date" value="${escapeHtml(w.date)}"></label>
     <div class="history-detail-grid"><div class="history-detail-metric"><b>${formatDurationMinutes(w.duration)}</b><span>DURACIÓN</span></div><div class="history-detail-metric"><b>${fmtKgNumber(w.volume)} kg</b><span>VOLUMEN</span></div><div class="history-detail-metric"><b>${Number(w.sets)||0}</b><span>SERIES</span></div><div class="history-detail-metric"><b>${Number(w.reps)||0}</b><span>REPETICIONES</span></div></div>
     ${details}${emptyDetail}
+    <button class="btn btn-primary" style="width:100%;margin-top:8px;padding:12px" onclick="saveWorkoutEdits()">Guardar cambios</button>
     <button class="btn btn-ghost btn-delete-workout" style="width:100%;margin-top:14px;padding:12px" onclick="deleteWorkoutFromDetail()">Eliminar entrenamiento</button>`;
   document.getElementById('historyDetailSheet').classList.add('open');
   document.getElementById('historyDetailBackdrop').classList.add('open');
+}
+function saveWorkoutEdits(){
+  if(!selectedWorkoutRecord)return;
+  const w=workoutLog.find(x=>selectedWorkoutRecord.id&&String(x.id)===String(selectedWorkoutRecord.id))||selectedWorkoutRecord;
+  selectedWorkoutRecord=w;
+  const date=document.getElementById('historyWorkoutDate')?.value;
+  if(!date){toast('Selecciona el día del entrenamiento');return;}
+  const inputs=[...document.querySelectorAll('#historyDetailContent .history-edit-input')];
+  inputs.forEach(input=>{
+    const ex=w.exercises?.[Number(input.dataset.ex)],set=ex?.sets?.[Number(input.dataset.set)];
+    if(!set)return;
+    const value=Math.max(0,Number(input.value)||0),field=input.dataset.field;
+    set[field]=field==='weight'?Math.round(value*10)/10:Math.round(value);
+    set.volume=Math.round((Number(set.weight)||0)*(Number(set.reps)||0)*10)/10;
+  });
+  const previousDate=w.date;
+  w.date=date;
+  ['startedAt','finishedAt'].forEach(key=>{
+    if(typeof w[key]==='string'&&/^\d{4}-\d{2}-\d{2}/.test(w[key])) w[key]=date+w[key].slice(10);
+  });
+  let sets=0,reps=0,volume=0;
+  (w.exercises||[]).forEach(ex=>{
+    ex.sets=Array.isArray(ex.sets)?ex.sets:[];
+    ex.reps=ex.sets.reduce((sum,s)=>sum+(Number(s.reps)||0),0);
+    ex.volume=ex.sets.reduce((sum,s)=>sum+(Number(s.weight)||0)*(Number(s.reps)||0),0);
+    sets+=ex.sets.length;reps+=ex.reps;volume+=ex.volume;
+  });
+  w.sets=sets;w.reps=reps;w.volume=Math.round(volume*10)/10;
+  if(selectedCalDate===previousDate){selectedCalDate=date;calCursor=new Date(parseISO(date).getFullYear(),parseISO(date).getMonth(),1);}
+  persistLocalData();refreshAllViews();showWorkoutDetail(workoutKey(w));toast('Entrenamiento actualizado');
 }
 function deleteWorkoutFromDetail(){
   if(!selectedWorkoutRecord) return;
@@ -2160,29 +2199,36 @@ function recordedWorkouts(){
     .map(w => ({...w, duration:Number(w.duration)||0, volume:Number(w.volume)||0, sets:Number(w.sets)||0, reps:Number(w.reps)||0}));
 }
 
-function selectedHomePeriodDays(){
-  const label=document.querySelector('.period-chips .on')?.textContent?.trim()||'3M';
-  return label==='6M'?180:label==='1A'?365:90;
-}
+let homePeriod='7';
 
 function renderChart(filter){
   currentFilter = filter;
   const cfg = CHART_DATA[filter] || CHART_DATA.dur;
-  const days = selectedHomePeriodDays();
-  const cutoff = isoDate(addDays(TODAY, -days));
-  const sessions = recordedWorkouts().filter(w => w.date >= cutoff && w.date <= TODAY_ISO);
-  const values = DAYS.map((_, dayIndex) => {
-    const matching=sessions.filter(w => ((parseISO(w.date).getDay()+6)%7)===dayIndex);
-    if(!matching.length) return 0;
-    const field=filter==='vol'?'volume':filter==='rep'?'reps':'duration';
-    return matching.reduce((sum,w)=>sum+(Number(w[field])||0),0)/matching.length;
+  const period=homePeriod;
+  const all=recordedWorkouts().filter(w=>w.date<=TODAY_ISO).sort((a,b)=>a.date.localeCompare(b.date));
+  const days=period==='ALL'?null:Number(period);
+  const cutoff=days?isoDate(addDays(TODAY,-days+1)):(all[0]?.date||TODAY_ISO);
+  const sessions=all.filter(w=>w.date>=cutoff);
+  let count=period==='7'?7:period==='30'?5:12;
+  if(period==='ALL') count=Math.max(1,Math.min(12,Math.ceil((TODAY-parseISO(cutoff))/2592000000)+1));
+  const start=parseISO(cutoff).getTime(),end=parseISO(TODAY_ISO).getTime(),span=Math.max(1,end-start+86400000);
+  const field=filter==='vol'?'volume':filter==='rep'?'reps':'duration';
+  const buckets=Array.from({length:count},(_,i)=>({value:0,items:0,label:''}));
+  sessions.forEach(w=>{
+    const pos=Math.min(count-1,Math.floor(((parseISO(w.date).getTime()-start)/span)*count));
+    buckets[pos].value+=Number(w[field])||0;buckets[pos].items++;
   });
+  buckets.forEach((b,i)=>{
+    const date=new Date(start+(span*i/count));
+    b.label=period==='7'?DAYS[(date.getDay()+6)%7]:date.toLocaleDateString('es-ES',{day:'numeric',month:'short'}).replace('.','');
+  });
+  const values=buckets.map(b=>b.value);
   const max = Math.max(1, ...values);
   const container = document.getElementById('bars');
   if(!container) return;
   container.innerHTML = '';
   const hasData=sessions.length>0;
-  const defaultIndex = values[5] > 0 ? 5 : Math.max(0, values.reduce((last,v,i)=>v>0?i:last,-1));
+  const defaultIndex = Math.max(0, values.reduce((last,v,i)=>v>0?i:last,-1));
   values.forEach((val, i) => {
     const isEmpty = val === 0;
     const h = isEmpty ? 4 : Math.max(14, Math.round((val / max) * 100));
@@ -2196,14 +2242,15 @@ function renderChart(filter){
     col.innerHTML = `
       <div class="bar-val">${isEmpty ? '—' : cfg.fmt(val)}</div>
       <div class="bar" style="height:0%"></div>
-      <div class="bar-label">${DAYS[i]}</div>`;
+      <div class="bar-label">${buckets[i].label}</div>`;
     container.appendChild(col);
     requestAnimationFrame(() => setTimeout(() => {
       const bar=col.querySelector('.bar'); if(bar) bar.style.height = h + '%';
     }, 20 + i * 25));
   });
+  const periodLabel=period==='7'?'última semana':period==='30'?'último mes':period==='90'?'últimos 3 meses':period==='180'?'últimos 6 meses':'todo el tiempo';
   document.getElementById('chartSub').textContent = hasData
-    ? cfg.label + ' · media por día · últimos ' + (days===365?'12 meses':days===180?'6 meses':'3 meses')
+    ? cfg.label + ' · total por periodo · ' + periodLabel
     : cfg.label + ' · sin sesiones registradas';
 }
 
@@ -2214,8 +2261,9 @@ function setFilter(btn){
 }
 
 function setPeriod(btn){
-  document.querySelectorAll('.period-chips button').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('#homePeriodChips button').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
+  homePeriod=btn.dataset.period||'90';
   renderChart(currentFilter);
 }
 
