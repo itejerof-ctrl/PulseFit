@@ -56,6 +56,7 @@ body {
   background: #050608;
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
   color: var(--txt);
+  font-size: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -201,14 +202,18 @@ svg { display: block; }
 }
 .home-head .user { flex: 1; min-width: 0; }
 .home-head .name {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.home-head .handle { font-size: 12px; color: var(--muted); margin-top: 1px; }
+.home-head .handle { font-size: 13px; color: var(--muted); margin-top: 1px; }
+.profile-head { flex-wrap: wrap; }
+.profile-head-actions { display: flex; gap: 5px; }
+.profile-sync-row { display:flex; justify-content:flex-end; margin:-10px 0 14px; }
+.profile-shortcuts { margin-top:20px; }
 
 /* ============ QUICK ACCESS ============ */
 .quick-grid {
@@ -226,7 +231,7 @@ svg { display: block; }
   flex-direction: column;
   align-items: center;
   gap: 7px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--txt);
   cursor: pointer;
@@ -251,8 +256,8 @@ svg { display: block; }
   align-items: flex-start;
   margin-bottom: 16px;
 }
-.chart-head h3 { font-size: 14px; font-weight: 600; }
-.chart-head p { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+.chart-head h3 { font-size: 15px; font-weight: 600; }
+.chart-head p { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
 .period-chips {
   display: flex;
   gap: 2px;
@@ -265,7 +270,7 @@ svg { display: block; }
   background: transparent;
   color: var(--muted);
   font-family: inherit;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   padding: 4px 8px;
   border-radius: 6px;
@@ -277,7 +282,7 @@ svg { display: block; }
   color: var(--txt);
 }
 .period-chips.wide { display: flex; width: 100%; margin-bottom: 12px; }
-.period-chips.wide button { flex: 1; padding: 7px 2px; font-size: 10.5px; }
+.period-chips.wide button { flex: 1; padding: 7px 2px; font-size: 11.5px; }
 
 .bars {
   display: flex;
@@ -323,7 +328,7 @@ svg { display: block; }
 :root[data-theme="light"] .bar { background: #E5E7EB; }
 .bar-col.selected .bar { background: var(--blue); }
 .bar-col.empty .bar { background: var(--bg-soft); }
-.bar-label { font-size: 10.5px; color: var(--muted-2); font-weight: 600; }
+.bar-label { font-size: 11.5px; color: var(--muted-2); font-weight: 600; }
 
 .filter-row {
   display: flex;
@@ -338,7 +343,7 @@ svg { display: block; }
   background: var(--bg-soft);
   color: var(--muted);
   font-family: inherit;
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 600;
   padding: 8px 0;
   border-radius: 8px;
@@ -455,7 +460,7 @@ svg { display: block; }
 }
 .rc-head h3 { font-size: 15px; font-weight: 600; }
 .rc-count {
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--muted);
   background: var(--bg-soft);
@@ -575,6 +580,7 @@ svg { display: block; }
   margin-bottom: 8px;
 }
 .ex-detail-head b { font-size: 13.5px; font-weight: 600; }
+.ex-detail-head b, .ec-head h3 { cursor: pointer; }
 .ex-sets-list { display: flex; flex-direction: column; gap: 4px; }
 .set-line {
   display: flex;
@@ -918,7 +924,7 @@ svg { display: block; }
 }
 .si-del { color: var(--red); }
 .sheet-empty { text-align: center; padding: 24px 10px; color: var(--muted); font-size: 12.5px; }
-.sheet-label { font-size: 10.5px; font-weight: 600; letter-spacing: 0.4px; color: var(--muted); margin-bottom: 6px; }
+.sheet-label { font-size: 11.5px; font-weight: 600; letter-spacing: 0.4px; color: var(--muted); margin-bottom: 6px; }
 
 /* ============ STATS SCREEN ============ */
 .h-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
@@ -930,7 +936,7 @@ svg { display: block; }
 .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .report-item { background: var(--bg-soft); border-radius: 10px; padding: 12px 8px; text-align: center; }
 .report-item b { display: block; font-size: 15px; font-weight: 700; }
-.report-item span { display: block; font-size: 10px; color: var(--muted); font-weight: 500; margin-top: 3px; }
+.report-item span { display: block; font-size: 11px; color: var(--muted); font-weight: 500; margin-top: 3px; }
 
 .report-highlight {
   display: flex; align-items: center; gap: 10px; background: var(--bg-soft);
@@ -945,11 +951,12 @@ svg { display: block; }
 .ex-lib-item {
   display: flex; align-items: center; gap: 12px; padding: 11px 12px; background: var(--card);
   border: 1px solid var(--line); border-radius: var(--r-md); margin-bottom: 8px;
+  cursor: pointer;
 }
 .ex-lib-item.pick { cursor: pointer; }
 .eli-thumb { width: 64px; height: 64px; border-radius: 12px; flex-shrink: 0; object-fit: cover; background: var(--card-2); }
 .eli-tx { flex: 1; min-width: 0; }
-.eli-tx b { display: block; font-size: 13.5px; font-weight: 600; }
+.eli-tx b { display: block; font-size: 14.5px; font-weight: 600; }
 .eli-tx span { display: inline-block; font-size: 9.5px; font-weight: 600; padding: 2px 7px; border-radius: 5px; margin-top: 4px; }
 .eli-actions { display: flex; gap: 6px; flex-shrink: 0; }
 .eli-edit, .eli-del, .eli-add {
@@ -1056,9 +1063,22 @@ svg { display: block; }
 .tab {
   flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
   padding: 6px 0; background: none; border: none; color: var(--muted-2);
-  font-family: inherit; font-size: 10.5px; font-weight: 600; cursor: pointer;
+  font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer;
 }
 .tab.active { color: var(--blue); }
+.page-head h1 { font-size: 22px; }
+.page-head p { font-size: 14px; }
+.sec-title h2 { font-size: 15px; }
+.hist-top h3 { font-size: 15px; }
+.hist-top .date, .hist-metrics .hm span { font-size: 12px; }
+.history-exercise-chart { width:100%; height:150px; display:block; margin:8px 0; }
+.exercise-record-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin:14px 0; }
+.exercise-record { background:var(--bg-soft); border-radius:10px; padding:11px 7px; text-align:center; }
+.exercise-record b { display:block; font-size:15px; }
+.exercise-record span { display:block; color:var(--muted); font-size:10.5px; margin-top:4px; }
+.exercise-history-row { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; margin:8px 0; cursor:pointer; }
+.exercise-history-row b { font-size:14px; }
+.exercise-history-row span { display:block; color:var(--muted); font-size:12px; margin-top:4px; }
 
 /* ============ TOAST & EXTRAS ============ */
 .toast {
@@ -1196,54 +1216,40 @@ svg { display: block; }
     ========================================================== -->
     <section class="screen active" id="s-home">
       <div class="scroll">
+        <div class="page-head">
+          <h1>Inicio</h1>
+          <p>Tus últimos entrenamientos</p>
+        </div>
+        <div class="sec-title"><h2>Entrenamientos recientes</h2><a onclick="go('s-calendar')">Ver calendario</a></div>
+        <div id="recentHistory"></div>
+      </div>
+    </section>
 
-        <div class="home-head">
+    <!-- SCREEN · PERFIL -->
+    <section class="screen" id="s-profile">
+      <div class="scroll">
+        <div class="home-head profile-head">
           <img class="avatar" id="profileAvatar" src="" alt="Avatar">
           <div class="user">
             <div class="name" id="profileName">Carlos Ruiz</div>
-            <div class="handle">Resumen de actividad</div>
+            <div class="handle">Mi perfil</div>
           </div>
-          <div class="sync-pill" id="syncStatusPill" onclick="openCloudSheet()" title="Sincronización con Google Sheets">
-            <span class="dot"></span>
-            <span id="syncStatusText">Local</span>
-          </div>
-          <button class="icon-btn" onclick="openProfileEditor()" aria-label="Editar perfil">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>
-            </svg>
-          </button>
-        </div>
-
-        <!-- ACCESOS RÁPIDOS -->
-        <div class="quick-grid">
-          <div class="quick" onclick="go('s-stats')">
-            <div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V9M10 19V5M16 19v-6M22 19H2"/></svg></div>
-            Estadísticas
-          </div>
-          <div class="quick" onclick="go('s-exercises')">
-            <div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10"/></svg></div>
-            Ejercicios
-          </div>
-          <div class="quick" onclick="go('s-measures')">
-            <div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v8H3z"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></svg></div>
-            Medidas
-          </div>
-          <div class="quick" onclick="go('s-calendar')">
-            <div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>
-            Calendario
+          <div class="profile-head-actions">
+            <button class="icon-btn" onclick="openProfileEditor()" aria-label="Editar perfil" title="Editar perfil">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>
+            </button>
+            <button class="icon-btn" onclick="openAppSettings()" aria-label="Configuración de la aplicación" title="Configuración">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-1.6 2.8-.2-.1a1.7 1.7 0 0 0-1.8.3l-.1.1h-3.2l-.1-.2a1.7 1.7 0 0 0-1.5-1.1 1.7 1.7 0 0 0-1.5 1.1l-.1.2H6.5l-.1-.2a1.7 1.7 0 0 0-1.8-.3l-.2.1-1.6-2.8.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-.9h-.2v-3.2h.2a1.7 1.7 0 0 0 1.6-.9 1.7 1.7 0 0 0-.3-1.9l-.1-.1 1.6-2.8.2.1a1.7 1.7 0 0 0 1.8-.3l.1-.1h3.2l.1.2a1.7 1.7 0 0 0 1.5 1.1 1.7 1.7 0 0 0 1.5-1.1l.1-.2h3.2l.1.2a1.7 1.7 0 0 0 1.8.3l.2-.1 1.6 2.8-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6.9h.2v3.2h-.2a1.7 1.7 0 0 0-1.6.9z"/></svg>
+            </button>
           </div>
         </div>
+        <div class="profile-sync-row"><div class="sync-pill" id="syncStatusPill" onclick="openCloudSheet()" title="Sincronización con Google Sheets">
+          <span class="dot"></span><span id="syncStatusText">Local</span>
+        </div></div>
 
-        <!-- CHART -->
         <div class="sec-title"><h2>Progreso</h2></div>
         <div class="card chart-card">
-          <div class="chart-head">
-            <div>
-              <h3>Actividad</h3>
-              <p id="chartSub">Duración · últimos 3 meses</p>
-            </div>
-          </div>
-
+          <div class="chart-head"><div><h3>Actividad</h3><p id="chartSub">Duración · últimos 3 meses</p></div></div>
           <div class="period-chips wide" id="homePeriodChips" aria-label="Periodo del gráfico">
             <button class="on" data-period="7" onclick="setPeriod(this)">1 sem</button>
             <button data-period="30" onclick="setPeriod(this)">1 mes</button>
@@ -1251,9 +1257,7 @@ svg { display: block; }
             <button data-period="180" onclick="setPeriod(this)">6 meses</button>
             <button data-period="ALL" onclick="setPeriod(this)">Todo</button>
           </div>
-
           <div class="bars" id="bars"></div>
-
           <div class="filter-row">
             <button class="on" data-f="dur" onclick="setFilter(this)">Duración</button>
             <button data-f="vol" onclick="setFilter(this)">Volumen</button>
@@ -1261,10 +1265,12 @@ svg { display: block; }
           </div>
         </div>
 
-        <!-- RECENT -->
-        <div class="sec-title"><h2>Historial reciente</h2><a onclick="go('s-calendar')">Ver todo</a></div>
-        <div id="recentHistory"></div>
-
+        <div class="quick-grid profile-shortcuts">
+          <button class="quick" onclick="go('s-stats')"><div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 19V9M10 19V5M16 19v-6M22 19H2"/></svg></div>Estadísticas</button>
+          <button class="quick" onclick="go('s-exercises')"><div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10"/></svg></div>Ejercicios</button>
+          <button class="quick" onclick="go('s-measures')"><div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v8H3z"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></svg></div>Medidas</button>
+          <button class="quick" onclick="go('s-calendar')"><div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>Calendario</button>
+        </div>
       </div>
     </section>
 
@@ -1624,6 +1630,10 @@ svg { display: block; }
         </svg>
         Entreno
       </button>
+      <button class="tab" data-screen="s-profile" onclick="tab('s-profile')">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+        Perfil
+      </button>
     </nav>
 
     <!-- ===== KEYPAD ===== -->
@@ -1720,6 +1730,14 @@ svg { display: block; }
       <div class="sheet-body" id="historyDetailContent"></div>
     </div>
 
+    <!-- ===== SHEET HISTORIAL DE EJERCICIO ===== -->
+    <div class="backdrop" id="exerciseHistoryBackdrop" onclick="closeExerciseHistory()"></div>
+    <div class="sheet" id="exerciseHistorySheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><h3>Historial del ejercicio</h3><button class="sheet-close" onclick="closeExerciseHistory()" aria-label="Cerrar">✕</button></div>
+      <div class="sheet-body" id="exerciseHistoryContent"></div>
+    </div>
+
     <!-- ===== SHEET EDITAR EJERCICIO ===== -->
     <div class="backdrop" id="editExBackdrop" onclick="closeEditExercise()"></div>
     <div class="sheet" id="editExSheet">
@@ -1779,12 +1797,6 @@ svg { display: block; }
         <div class="sheet-label">NOMBRE</div>
         <input id="profileNameInput" class="text-input" placeholder="Tu nombre">
 
-        <div class="sheet-label" style="margin-top:14px">APARIENCIA</div>
-        <div class="theme-options" role="group" aria-label="Tema de la aplicación">
-          <button type="button" id="themeDarkBtn" class="theme-option" onclick="setAppTheme('dark')"><span class="theme-preview" style="background:#161920;color:#fff">☾</span><span>Oscuro</span></button>
-          <button type="button" id="themeLightBtn" class="theme-option" onclick="setAppTheme('light')"><span class="theme-preview" style="background:#fff;color:#111827">☀</span><span>Claro</span></button>
-        </div>
-
         <div class="sheet-label" style="margin-top:14px">IMAGEN DE PERFIL</div>
         <div class="avatar-picker" id="avatarPicker"></div>
         <div class="local-upload-row">
@@ -1793,17 +1805,32 @@ svg { display: block; }
           <span class="local-upload-status" id="profileImageStatus">Guardado local</span>
         </div>
 
-        <div class="sheet-label" style="margin-top:16px">DESCANSO</div>
+        <button class="btn btn-primary" style="width:100%;padding:12px;margin-top:16px;" onclick="saveProfile()">Guardar cambios</button>
+      </div>
+    </div>
+
+    <!-- ===== SHEET CONFIGURACIÓN DE LA APLICACIÓN ===== -->
+    <div class="backdrop" id="settingsBackdrop" onclick="closeAppSettings()"></div>
+    <div class="sheet" id="settingsSheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head"><h3>Configuración</h3><button class="sheet-close" onclick="closeAppSettings()" aria-label="Cerrar">✕</button></div>
+      <div class="sheet-body">
+        <div class="sheet-label">APARIENCIA</div>
+        <div class="theme-options" role="group" aria-label="Tema de la aplicación">
+          <button type="button" id="themeDarkBtn" class="theme-option" onclick="setAppTheme('dark')"><span class="theme-preview" style="background:#161920;color:#fff">☾</span><span>Oscuro</span></button>
+          <button type="button" id="themeLightBtn" class="theme-option" onclick="setAppTheme('light')"><span class="theme-preview" style="background:#fff;color:#111827">☀</span><span>Claro</span></button>
+        </div>
+        <div class="sheet-label" style="margin-top:20px">DESCANSO</div>
         <label class="toggle-row" style="margin-top:0">
           <span>Aviso al terminar el descanso<small>Notificación y vibración en tu móvil</small></span>
           <input type="checkbox" id="profileRestAlerts" onchange="onRestAlertsToggle()">
         </label>
         <div class="local-upload-row" style="margin-top:8px">
-          <button class="btn btn-ghost" style="padding:8px 12px;font-size:12px" onclick="testRestAlert()">Probar aviso</button>
+          <button class="btn btn-ghost" style="padding:8px 12px;font-size:13px" onclick="testRestAlert()">Probar aviso</button>
           <span class="local-upload-status" id="restAlertHint">—</span>
         </div>
-
-        <button class="btn btn-primary" style="width:100%;padding:12px;margin-top:16px;" onclick="saveProfile()">Guardar cambios</button>
+        <div class="sheet-label" style="margin-top:20px">DATOS Y SINCRONIZACIÓN</div>
+        <button class="btn btn-ghost" style="width:100%;padding:12px" onclick="closeAppSettings();openCloudSheet()">Abrir configuración de Sheets y Drive</button>
       </div>
     </div>
 
@@ -2001,11 +2028,19 @@ const AVATAR_COLORS = [
 ];
 const AVATAR_SILHOUETTE = `<circle cx="50" cy="38" r="16" fill="#fff" opacity=".95"/><path d="M18 90 C18 68 32 58 50 58 C68 58 82 68 82 90 Z" fill="#fff" opacity=".95"/>`;
 const AVATAR_IMAGES = AVATAR_COLORS.map((c,i) => svgUri(bgGrad('av'+i, c[0], c[1]) + AVATAR_SILHOUETTE));
+function avatarImage(value){
+  const match=String(value||'').match(/^pulsefit-avatar:(\d+)$/);
+  return match?AVATAR_IMAGES[Number(match[1])]||AVATAR_IMAGES[0]:value||AVATAR_IMAGES[0];
+}
+function avatarValueForStorage(value){
+  const index=AVATAR_IMAGES.indexOf(value);
+  return index>=0?'pulsefit-avatar:'+index:value;
+}
 
 /* ============================================================
    NAVEGACIÓN
 ============================================================ */
-const TAB_SCREENS = ['s-home','s-workout'];
+const TAB_SCREENS = ['s-home','s-workout','s-profile'];
 let stack = ['s-home'];
 
 function render(){
@@ -2018,7 +2053,8 @@ function render(){
   document.getElementById('tabbar').classList.toggle('hide', !isTab);
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.screen === id));
 
-  if (id === 's-home') { renderChart(currentFilter); renderRecentHistory(); }
+  if (id === 's-home') renderRecentHistory();
+  if (id === 's-profile') renderChart(currentFilter);
   if (id === 's-routine') { renderRoutineExercises(); renderRoutineChart(routinePeriod); }
   if (id === 's-measures') { renderMeasureChart(); renderMeasureRecords(); }
   if (id === 's-stats') renderStatsScreen();
@@ -2402,15 +2438,16 @@ function renderThemeChoice(){
 
 function renderProfileHeader(){
   const avatar = document.getElementById('profileAvatar');
-  if(avatar) avatar.src = profile.avatar || AVATAR_IMAGES[0];
+  if(avatar) avatar.src = avatarImage(profile.avatar);
   const name = document.getElementById('profileName');
   if(name) name.textContent = profile.name || 'Atleta';
 }
 
 function renderAvatarPicker(){
   const el = document.getElementById('avatarPicker');
+  const current=avatarImage(selectedAvatar);
   el.innerHTML = AVATAR_IMAGES.map((src,i)=>
-    `<img class="img-opt ${src===selectedAvatar?'on':''}" src="${src}" alt="Avatar ${i+1}" onclick="selectAvatar(${i})">`
+    `<img class="img-opt ${src===current?'on':''}" src="${src}" alt="Avatar ${i+1}" onclick="selectAvatar(${i})">`
   ).join('');
 }
 
@@ -2420,7 +2457,7 @@ function selectAvatar(i){
 }
 
 function openProfileEditor(){
-  selectedAvatar = profile.avatar;
+  selectedAvatar = avatarImage(profile.avatar);
   document.getElementById('profileNameInput').value = profile.name || '';
   renderThemeChoice();
   renderAvatarPicker();
@@ -2434,6 +2471,17 @@ function openProfileEditor(){
 function closeProfileEditor(){
   document.getElementById('profileSheet').classList.remove('open');
   document.getElementById('profileBackdrop').classList.remove('open');
+}
+
+function openAppSettings(){
+  renderThemeChoice();
+  renderRestAlertSetting();
+  document.getElementById('settingsSheet').classList.add('open');
+  document.getElementById('settingsBackdrop').classList.add('open');
+}
+function closeAppSettings(){
+  document.getElementById('settingsSheet').classList.remove('open');
+  document.getElementById('settingsBackdrop').classList.remove('open');
 }
 
 function handleImageFile(file, done){
@@ -2493,7 +2541,7 @@ function saveProfile(){
   const name = document.getElementById('profileNameInput').value.trim();
   if(!name){ toast('El nombre no puede estar vacío'); return; }
   profile.name = name;
-  profile.avatar = selectedAvatar;
+  profile.avatar = avatarValueForStorage(selectedAvatar);
   const cb = document.getElementById('profileRestAlerts');
   if(cb) profile.restAlerts = !!cb.checked;
   if(profile.restAlerts) requestNotificationPermission();
@@ -2664,7 +2712,7 @@ function renderRoutineExercises() {
         <img class="ex-detail-thumb" src="${imgSrc}" alt="">
         <div class="ex-detail-main">
           <div class="ex-detail-head">
-            <b>${escapeHtml(ex.name)}</b>
+            <b ${editRoutineMode?'':'role="button" tabindex="0" onclick="showRoutineExerciseHistory('+index+')"'}>${escapeHtml(ex.name)}</b>
             <span class="rest-chip" onclick="openKeypadForRest(${index}, ${ex.restSeconds || 120})">◷ ${restDisplay}</span>
           </div>
           <div class="ex-sets-list">${setsHtml}</div>
@@ -2968,7 +3016,7 @@ function renderActiveSessionCards(){
         <div class="ec-head">
           <div class="ex-image" style="background-image:url('${imgSrc}')"></div>
           <div class="ec-title">
-            <h3>${escapeHtml(ex.name)}</h3>
+            <h3 role="button" tabindex="0" onclick="showRoutineExerciseHistory(${exIndex})">${escapeHtml(ex.name)}</h3>
             <p>${escapeHtml(ex.muscle || 'Ejercicio')}</p>
           </div>
         </div>
@@ -3473,19 +3521,80 @@ function renderExerciseList(){
     const c = MUSCLE_COLORS[e.muscle] || MUSCLE_COLORS['Pecho'];
     const img = exerciseImg(e.img);
     return `
-      <div class="ex-lib-item">
+      <div class="ex-lib-item" role="button" tabindex="0" onclick="showExerciseDetail(${Number(e.id)})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showExerciseDetail(${Number(e.id)})}">
         <img class="eli-thumb" src="${img}" alt="">
         <div class="eli-tx">
           <b>${escapeHtml(e.name)}</b>
           <span style="background:${c.bg};color:${c.color}">${e.muscle.toUpperCase()}</span>
         </div>
         <div class="eli-actions">
-          <button class="eli-edit" onclick="openEditExercise(${e.id})" aria-label="Editar">✎</button>
-          <button class="eli-del" onclick="deleteExercise(${e.id})" aria-label="Eliminar">✕</button>
+          <button class="eli-edit" onclick="event.stopPropagation();openEditExercise(${Number(e.id)})" aria-label="Editar">✎</button>
+          <button class="eli-del" onclick="event.stopPropagation();deleteExercise(${Number(e.id)})" aria-label="Eliminar">✕</button>
         </div>
       </div>
     `;
   }).join('');
+}
+
+function showExerciseDetail(id){
+  const exercise=id&&typeof id==='object'?id:exercises.find(e=>String(e.id)===String(id));
+  if(!exercise)return;
+  const nameKey=String(exercise.name||'').trim().toLocaleLowerCase('es-ES');
+  const sessions=recordedWorkouts().map(w=>{
+    const detail=(w.exercises||[]).find(ex=>String(ex.name||'').trim().toLocaleLowerCase('es-ES')===nameKey);
+    if(!detail)return null;
+    const sets=Array.isArray(detail.sets)?detail.sets:[];
+    if(!sets.length)return null;
+    const topSet=sets.reduce((best,s)=>Number(s.weight)>Number(best.weight)?s:best,sets[0]);
+    const volume=sets.reduce((sum,s)=>sum+(Number(s.weight)||0)*(Number(s.reps)||0),0);
+    return {workout:w,sets,topWeight:Number(topSet.weight)||0,topReps:Number(topSet.reps)||0,volume,reps:sets.reduce((sum,s)=>sum+(Number(s.reps)||0),0)};
+  }).filter(Boolean).sort((a,b)=>a.workout.date.localeCompare(b.workout.date));
+  const maxWeight=Math.max(0,...sessions.map(s=>s.topWeight));
+  const bestVolume=Math.max(0,...sessions.map(s=>s.volume));
+  const bestReps=Math.max(0,...sessions.map(s=>Math.max(...s.sets.map(set=>Number(set.reps)||0))));
+  let chart='<div class="history-no-detail">Todavía no hay sesiones guardadas con este ejercicio.</div>';
+  if(sessions.length){
+    const W=340,H=145,left=28,right=12,top=12,bottom=28,plotW=W-left-right,plotH=H-top-bottom;
+    const ceiling=Math.max(1,maxWeight*1.12);
+    const coords=sessions.map((s,i)=>({
+      x:sessions.length===1?W/2:left+(i/(sessions.length-1))*plotW,
+      y:top+plotH-(s.topWeight/ceiling)*plotH,
+      item:s
+    }));
+    const line=coords.map(p=>`${p.x},${p.y}`).join(' ');
+    chart=`<svg class="history-exercise-chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Evolución del peso máximo por sesión">
+      <line x1="${left}" y1="${top+plotH}" x2="${W-right}" y2="${top+plotH}" stroke="var(--line)"/>
+      <polyline points="${line}" fill="none" stroke="var(--blue)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      ${coords.map(p=>`<circle cx="${p.x}" cy="${p.y}" r="4" fill="var(--card)" stroke="var(--blue)" stroke-width="2"><title>${fmtKgNumber(p.item.topWeight)} kg · ${p.item.workout.date}</title></circle>`).join('')}
+      <text x="${left}" y="${H-5}" fill="var(--muted)" font-size="10">${escapeHtml(sessions[0].workout.date.slice(5))}</text>
+      <text x="${W-right}" y="${H-5}" text-anchor="end" fill="var(--muted)" font-size="10">${escapeHtml(sessions[sessions.length-1].workout.date.slice(5))}</text>
+      <text x="${left}" y="${top+2}" fill="var(--muted)" font-size="10">${fmtKgNumber(maxWeight)} kg</text>
+    </svg>`;
+  }
+  const rows=sessions.slice().reverse().map(s=>`<div class="exercise-history-row" role="button" tabindex="0" onclick="openWorkoutFromExercise('${escapeHtml(workoutKey(s.workout))}')">
+    <b>${escapeHtml(s.workout.name||'Entrenamiento')} · ${escapeHtml(formatWorkoutDate(s.workout.date))}</b>
+    <span>Máximo ${fmtKgNumber(s.topWeight)} kg · ${s.sets.length} series · ${fmtKgNumber(s.volume)} kg de volumen</span>
+  </div>`).join('');
+  document.getElementById('exerciseHistoryContent').innerHTML=`
+    <div class="history-ex-head"><img src="${exerciseImg(exercise.img)}" alt=""><div class="hex-tx"><b>${escapeHtml(exercise.name)}</b><span>${escapeHtml(exercise.muscle||'')}</span></div></div>
+    <div class="exercise-record-grid">
+      <div class="exercise-record"><b>${fmtKgNumber(maxWeight)} kg</b><span>RÉCORD DE PESO</span></div>
+      <div class="exercise-record"><b>${fmtKgNumber(bestVolume)} kg</b><span>RÉCORD DE VOLUMEN</span></div>
+      <div class="exercise-record"><b>${bestReps||0}</b><span>RÉCORD DE REPETICIONES</span></div>
+    </div>
+    <div class="sec-title"><h2>Evolución del peso</h2></div>${chart}
+    <div class="sec-title"><h2>Sesiones (${sessions.length})</h2></div>${rows||''}`;
+  document.getElementById('exerciseHistorySheet').classList.add('open');
+  document.getElementById('exerciseHistoryBackdrop').classList.add('open');
+}
+function showRoutineExerciseHistory(index){
+  const exercise=routineExercises[index];
+  if(exercise) showExerciseDetail(exercise);
+}
+function openWorkoutFromExercise(key){closeExerciseHistory();showWorkoutDetail(key);}
+function closeExerciseHistory(){
+  document.getElementById('exerciseHistorySheet').classList.remove('open');
+  document.getElementById('exerciseHistoryBackdrop').classList.remove('open');
 }
 
 function addExercise(){
@@ -3846,7 +3955,7 @@ function escapeHtml(str){
 ============================================================ */
 const LOCAL_DATA_KEY = 'pulsefit-local-v3-clean';
 const GS_CONFIG_KEY = 'pulsefit-gs-config-v1';
-let gsConfig = { url: '', autoSync: true, lastSync: null, remoteVersion: '' };
+let gsConfig = { url: '', autoSync: true, lastSync: null, remoteVersion: '', localEditedAt: '' };
 let syncDebounceTimer = null;
 let localSyncDirty = false;
 let localSyncRevision = 0;
@@ -3912,9 +4021,10 @@ function applyFullAppState(d){
   if(Number.isFinite(Number(d.userHeight)) && Number(d.userHeight)>0) userHeight=Number(d.userHeight);
 
   if(d.profile && typeof d.profile==='object'){
+    const avatarValue=(typeof d.profile.avatar==='string'&&d.profile.avatar)?d.profile.avatar:profile.avatar;
     profile = {
       name: (typeof d.profile.name==='string' && d.profile.name.trim()) ? d.profile.name : profile.name,
-      avatar: (typeof d.profile.avatar==='string' && d.profile.avatar) ? d.profile.avatar : profile.avatar,
+      avatar: avatarValueForStorage(avatarValue),
       theme: d.profile.theme==='light' ? 'light' : 'dark',
       restAlerts: d.profile.restAlerts !== false
     };
@@ -3960,6 +4070,7 @@ async function uploadImageToDrive(dataUrl, baseName){
 
 function refreshAllViews(){
   renderProfileHeader();
+  renderChart(currentFilter);
   renderFolderScroll();
   renderWorkoutFolderRoutines();
   renderExerciseList();
@@ -3973,10 +4084,14 @@ function refreshAllViews(){
 
 function persistLocalData(skipCloud = false){
   try{
-    localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(getFullAppState()));
+    const state=getFullAppState();
+    if(skipCloud && gsConfig.remoteVersion) state.updatedAt=gsConfig.remoteVersion;
+    localStorage.setItem(LOCAL_DATA_KEY, JSON.stringify(state));
     if(!skipCloud){
       localSyncDirty = true;
       localSyncRevision++;
+      gsConfig.localEditedAt = state.updatedAt;
+      localStorage.setItem(GS_CONFIG_KEY,JSON.stringify(gsConfig));
       if(gsConfig.url && gsConfig.autoSync) scheduleCloudPush();
     }
   }catch(err){
@@ -3987,9 +4102,14 @@ function persistLocalData(skipCloud = false){
 function restoreLocalData(){
   try{
     const raw=localStorage.getItem(LOCAL_DATA_KEY);
-    if(raw) applyFullAppState(JSON.parse(raw));
+    let savedState=null;
+    if(raw){savedState=JSON.parse(raw);applyFullAppState(savedState);}
     const cfgRaw=localStorage.getItem(GS_CONFIG_KEY);
     if(cfgRaw) gsConfig = Object.assign(gsConfig, JSON.parse(cfgRaw));
+    const savedAt=Date.parse(savedState?.updatedAt||'')||0;
+    const syncedAt=Date.parse(gsConfig.remoteVersion||'')||0;
+    if(!gsConfig.localEditedAt && savedAt>syncedAt+5000) gsConfig.localEditedAt=savedState.updatedAt;
+    localSyncDirty=!!gsConfig.localEditedAt;
   }catch(e){}
 }
 
@@ -4049,7 +4169,10 @@ function copyAppsScriptCode(){
 
 function scheduleCloudPush(){
   clearTimeout(syncDebounceTimer);
-  syncDebounceTimer = setTimeout(() => pushToGoogleSheet(false), 1800);
+  syncDebounceTimer = setTimeout(() => {
+    syncDebounceTimer=null;
+    pushToGoogleSheet(false);
+  }, 1800);
 }
 
 function stateHasLocalImages(state){
@@ -4067,6 +4190,7 @@ function stateHasLocalImages(state){
 async function pushToGoogleSheet(manual = false){
   if(!gsConfig.url){ if(manual) toast('Pega primero la URL de tu Web App'); return; }
   if(cloudPushInFlight) return;
+  if(syncDebounceTimer){clearTimeout(syncDebounceTimer);syncDebounceTimer=null;}
   cloudPushInFlight = true;
   updateSyncStatusUI('syncing', 'Sincronizando…');
   const pushRevision=localSyncRevision;
@@ -4076,12 +4200,32 @@ async function pushToGoogleSheet(manual = false){
     const res = await fetch(gsConfig.url, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'sync', state })
+      body: JSON.stringify({ action: 'sync', baseVersion: gsConfig.remoteVersion || '', state })
     });
     let json = null;
     try{ json = await res.json(); }catch(err){ json = null; }
 
     if(json && json.status === 'error') throw new Error(json.message || 'Error del Sheet');
+
+    if(json && json.status === 'conflict' && json.state){
+      const localTime=Date.parse(gsConfig.localEditedAt||'')||0;
+      const remoteTime=Date.parse(json.syncVersion||'')||0;
+      gsConfig.remoteVersion=json.syncVersion||gsConfig.remoteVersion;
+      if(localTime>remoteTime){
+        localSyncDirty=true;
+        localStorage.setItem(GS_CONFIG_KEY,JSON.stringify(gsConfig));
+        setTimeout(()=>pushToGoogleSheet(false),0);
+      }else{
+        applyFullAppState(json.state);
+        localSyncDirty=false;
+        gsConfig.localEditedAt='';
+        persistLocalData(true);
+        refreshAllViews();
+        localStorage.setItem(GS_CONFIG_KEY,JSON.stringify(gsConfig));
+        updateSyncStatusUI('ok','Actualizado');
+      }
+      return;
+    }
 
     if(json && json.ignored && json.state){
       if(localSyncRevision===pushRevision){
@@ -4100,7 +4244,10 @@ async function pushToGoogleSheet(manual = false){
       persistLocalData(true);
       refreshAllViews();
     }
-    if(localSyncRevision===pushRevision) localSyncDirty=false;
+    if(localSyncRevision===pushRevision){
+      localSyncDirty=false;
+      gsConfig.localEditedAt='';
+    }
     if(json && json.syncVersion) gsConfig.remoteVersion=json.syncVersion;
 
     gsConfig.lastSync = new Date().toISOString();
@@ -4132,6 +4279,8 @@ async function pullFromGoogleSheet(manual = false){
       applyFullAppState(json.state);
       if(json.driveFolder) gsConfig.driveFolder = json.driveFolder;
       if(json.syncVersion) gsConfig.remoteVersion=json.syncVersion;
+      gsConfig.localEditedAt='';
+      localSyncDirty=false;
       persistLocalData(true);
       refreshAllViews();
       gsConfig.lastSync = new Date().toISOString();
@@ -4151,27 +4300,39 @@ async function pullFromGoogleSheet(manual = false){
 }
 
 async function syncFromCloudIfChanged(){
-  if(!gsConfig.url || cloudPullInFlight || cloudPushInFlight || localSyncDirty || syncDebounceTimer) return;
+  if(!gsConfig.url || cloudPullInFlight || cloudPushInFlight || syncDebounceTimer) return;
   cloudPullInFlight=true;
+  let pushLocalAfter=false;
   try{
     const url=gsConfig.url+(gsConfig.url.includes('?')?'&':'?')+'t='+Date.now();
     const res=await fetch(url);
     const json=await res.json();
-    if(!json || !json.state || !json.syncVersion || json.syncVersion===gsConfig.remoteVersion) return;
-    applyFullAppState(json.state);
-    if(json.driveFolder) gsConfig.driveFolder=json.driveFolder;
-    gsConfig.remoteVersion=json.syncVersion;
-    gsConfig.lastSync=new Date().toISOString();
-    localStorage.setItem(GS_CONFIG_KEY,JSON.stringify(gsConfig));
-    persistLocalData(true);
-    refreshAllViews();
-    render();
-    updateSyncStatusUI('ok','Actualizado');
+    if(!json || !json.state || !json.syncVersion) return;
+    const localTime=Date.parse(gsConfig.localEditedAt||'')||0;
+    const remoteTime=Date.parse(json.syncVersion)||0;
+    if(localTime>remoteTime){
+      gsConfig.remoteVersion=json.syncVersion;
+      localStorage.setItem(GS_CONFIG_KEY,JSON.stringify(gsConfig));
+      localSyncDirty=true;
+      pushLocalAfter=true;
+    }else if(json.syncVersion!==gsConfig.remoteVersion || localSyncDirty){
+      applyFullAppState(json.state);
+      if(json.driveFolder) gsConfig.driveFolder=json.driveFolder;
+      gsConfig.remoteVersion=json.syncVersion;
+      gsConfig.localEditedAt='';
+      localSyncDirty=false;
+      gsConfig.lastSync=new Date().toISOString();
+      localStorage.setItem(GS_CONFIG_KEY,JSON.stringify(gsConfig));
+      persistLocalData(true);
+      refreshAllViews();
+      updateSyncStatusUI('ok','Actualizado');
+    }
   }catch(err){
     console.warn('No se pudieron consultar los cambios de Google Sheets',err);
   }finally{
     cloudPullInFlight=false;
   }
+  if(pushLocalAfter && gsConfig.autoSync) pushToGoogleSheet(false);
 }
 
 function exportLocalData(){
@@ -4189,7 +4350,7 @@ function importLocalData(event){
 
 restoreLocalData();
 setAppTheme(profile.theme||'dark');
-window.addEventListener('pagehide',()=>{try{persistLocalData();}catch(e){}});
+window.addEventListener('pagehide',()=>{try{persistLocalData(true);}catch(e){}});
 
 /* ============================================================
    INIT
