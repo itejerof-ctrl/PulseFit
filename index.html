@@ -258,6 +258,8 @@ svg { display: block; }
 }
 .chart-head h3 { font-size: 15px; font-weight: 600; }
 .chart-head p { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+.activity-period-select { display:flex; align-items:center; gap:10px; margin-bottom:12px; color:var(--muted); font-size:13px; }
+.activity-period-select select { flex:1; min-width:0; }
 .period-chips {
   display: flex;
   gap: 2px;
@@ -585,6 +587,7 @@ svg { display: block; }
 .set-line {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   font-size: 12px;
   padding: 5px 8px;
@@ -593,6 +596,13 @@ svg { display: block; }
 }
 .set-index { color: var(--muted); font-weight: 500; }
 .set-data { display: flex; align-items: center; gap: 3px; color: var(--txt); font-weight: 600; font-variant-numeric: tabular-nums; }
+.record-badge { display:inline-flex; align-items:center; gap:4px; padding:5px 9px; border-radius:8px; background:rgba(245,158,11,.12); color:#D99A00; font-size:11.5px; font-weight:600; line-height:1.2; }
+:root[data-theme="light"] .record-badge { background:#FFF7DB; color:#9A6700; }
+.set-record-badges { display:flex; flex-wrap:wrap; gap:5px; width:100%; margin-top:4px; }
+.workout-record-badges { display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
+.set-prev { display:flex; flex-direction:column; align-items:center; gap:3px; }
+.active-set-records { display:flex; flex-wrap:wrap; justify-content:center; gap:3px; }
+.active-set-records .record-badge { padding:3px 5px; font-size:9.5px; }
 
 .set-edit-row {
   display: flex; align-items: center; gap: 6px;
@@ -1079,6 +1089,8 @@ svg { display: block; }
 .exercise-history-row { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px; margin:8px 0; cursor:pointer; }
 .exercise-history-row b { font-size:14px; }
 .exercise-history-row span { display:block; color:var(--muted); font-size:12px; margin-top:4px; }
+.history-exercise-links { display:flex; flex-wrap:wrap; gap:6px; margin-top:9px; }
+.history-exercise-link { border:1px solid var(--line); border-radius:8px; background:var(--bg-soft); color:var(--txt); padding:6px 9px; font:inherit; font-size:12px; cursor:pointer; }
 
 /* ============ TOAST & EXTRAS ============ */
 .toast {
@@ -1249,14 +1261,15 @@ svg { display: block; }
 
         <div class="sec-title"><h2>Progreso</h2></div>
         <div class="card chart-card">
-          <div class="chart-head"><div><h3>Actividad</h3><p id="chartSub">Duración · últimos 3 meses</p></div></div>
-          <div class="period-chips wide" id="homePeriodChips" aria-label="Periodo del gráfico">
-            <button class="on" data-period="7" onclick="setPeriod(this)">1 sem</button>
-            <button data-period="30" onclick="setPeriod(this)">1 mes</button>
-            <button data-period="90" onclick="setPeriod(this)">3 meses</button>
-            <button data-period="180" onclick="setPeriod(this)">6 meses</button>
-            <button data-period="ALL" onclick="setPeriod(this)">Todo</button>
-          </div>
+          <div class="chart-head"><div><h3>Actividad</h3><p id="chartSub">Duración · último mes</p></div></div>
+          <label class="activity-period-select">Periodo
+            <select id="homePeriodSelect" class="text-input" onchange="setPeriod(this)" aria-label="Periodo de actividad">
+              <option value="30" selected>Último mes</option>
+              <option value="90">Últimos 3 meses</option>
+              <option value="180">Últimos 6 meses</option>
+              <option value="365">Último año</option>
+            </select>
+          </label>
           <div class="bars" id="bars"></div>
           <div class="filter-row">
             <button class="on" data-f="dur" onclick="setFilter(this)">Duración</button>
@@ -1271,6 +1284,8 @@ svg { display: block; }
           <button class="quick" onclick="go('s-measures')"><div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v8H3z"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></svg></div>Medidas</button>
           <button class="quick" onclick="go('s-calendar')"><div class="qi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 11h18"/></svg></div>Calendario</button>
         </div>
+        <div class="sec-title"><h2>Historial de rutinas</h2><a onclick="go('s-calendar')">Ver calendario</a></div>
+        <div id="profileRoutineHistory"></div>
       </div>
     </section>
 
@@ -2054,7 +2069,7 @@ function render(){
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.screen === id));
 
   if (id === 's-home') renderRecentHistory();
-  if (id === 's-profile') renderChart(currentFilter);
+  if (id === 's-profile') { renderChart(currentFilter); renderProfileRoutineHistory(); }
   if (id === 's-routine') { renderRoutineExercises(); renderRoutineChart(routinePeriod); }
   if (id === 's-measures') { renderMeasureChart(); renderMeasureRecords(); }
   if (id === 's-stats') renderStatsScreen();
@@ -2089,6 +2104,90 @@ function findWorkoutRecord(key){
 }
 function workoutKey(w){ return String((w && (w.id || w.date)) || ''); }
 function fmtKgNumber(n){ return (Number(n)||0).toLocaleString('es-ES',{maximumFractionDigits:1}); }
+function estimatedOneRepMax(weight,reps){
+  weight=Math.max(0,Number(weight)||0);reps=Math.max(0,Number(reps)||0);
+  return weight>0&&reps>0?weight*(1+reps/30):0;
+}
+function workoutComesBefore(a,b){
+  if(a.date!==b.date)return a.date<b.date;
+  const aTime=String(a.startedAt||a.finishedAt||a.id||'');
+  const bTime=String(b.startedAt||b.finishedAt||b.id||'');
+  return aTime<bTime;
+}
+function recordStatsBefore(exerciseName,workout,index){
+  const key=String(exerciseName||'').trim().toLocaleLowerCase('es-ES');
+  const stats={weight:0,oneRepMax:0};
+  recordedWorkouts().forEach(previous=>{
+    if(workout&&String(previous.id)===String(workout.id))return;
+    if(workout&&!workoutComesBefore(previous,workout))return;
+    (previous.exercises||[]).forEach(ex=>{
+      if(String(ex.name||'').trim().toLocaleLowerCase('es-ES')!==key)return;
+      (ex.sets||[]).forEach(set=>{
+        stats.weight=Math.max(stats.weight,Number(set.weight)||0);
+        stats.oneRepMax=Math.max(stats.oneRepMax,estimatedOneRepMax(set.weight,set.reps));
+      });
+    });
+  });
+  if(workout){
+    const current=(workout.exercises||[]).find(ex=>String(ex.name||'').trim().toLocaleLowerCase('es-ES')===key);
+    (current?.sets||[]).slice(0,index).forEach(set=>{
+      stats.weight=Math.max(stats.weight,Number(set.weight)||0);
+      stats.oneRepMax=Math.max(stats.oneRepMax,estimatedOneRepMax(set.weight,set.reps));
+    });
+  }
+  return stats;
+}
+function setRecordFlags(exerciseName,set,workout,index){
+  const stats=recordStatsBefore(exerciseName,workout,index);
+  const weight=Number(set.weight)||0,oneRepMax=estimatedOneRepMax(weight,set.reps);
+  return {weight:weight>stats.weight,oneRepMax:oneRepMax>stats.oneRepMax};
+}
+function recordBadgesHtml(flags){
+  const items=recordBadgeItemsHtml(flags);
+  return items?`<span class="set-record-badges">${items}</span>`:'';
+}
+function recordBadgeItemsHtml(flags){
+  let html='';
+  if(flags.oneRepMax)html+='<span class="record-badge">🏅 Mejor repetición máxima</span>';
+  if(flags.weight)html+='<span class="record-badge">🏅 Mejor peso</span>';
+  return html;
+}
+function workoutRecordIndexKey(workout){
+  return String(workout.id||[workout.date,workout.name,workout.startedAt,workout.finishedAt].join('|'));
+}
+function buildWorkoutRecordIndex(){
+  const statsByExercise={},labelsByWorkout={};
+  const sessions=recordedWorkouts().sort((a,b)=>a.date.localeCompare(b.date)||String(a.startedAt||'').localeCompare(String(b.startedAt||'')));
+  sessions.forEach(workout=>{
+    const labels=new Set();
+    (workout.exercises||[]).forEach(ex=>{
+      const key=String(ex.name||'').trim().toLocaleLowerCase('es-ES');
+      const stats=statsByExercise[key]||(statsByExercise[key]={weight:0,oneRepMax:0});
+      (ex.sets||[]).forEach(set=>{
+        const weight=Number(set.weight)||0,oneRepMax=estimatedOneRepMax(weight,set.reps);
+        if(oneRepMax>stats.oneRepMax)labels.add('Mejor repetición máxima');
+        if(weight>stats.weight)labels.add('Mejor peso');
+        stats.weight=Math.max(stats.weight,weight);
+        stats.oneRepMax=Math.max(stats.oneRepMax,oneRepMax);
+      });
+    });
+    labelsByWorkout[workoutRecordIndexKey(workout)]=labels;
+  });
+  return labelsByWorkout;
+}
+function workoutRecordBadgesHtml(workout,index){
+  const labels=index?index[workoutRecordIndexKey(workout)]:null;
+  if(!labels){
+    const fallback=new Set();
+    (workout.exercises||[]).forEach(ex=>(ex.sets||[]).forEach((set,i)=>{
+      const flags=setRecordFlags(ex.name,set,workout,i);
+      if(flags.oneRepMax)fallback.add('Mejor repetición máxima');
+      if(flags.weight)fallback.add('Mejor peso');
+    }));
+    return fallback.size?`<div class="workout-record-badges">${[...fallback].map(label=>`<span class="record-badge">🏅 ${label}</span>`).join('')}</div>`:'';
+  }
+  return labels.size?`<div class="workout-record-badges">${[...labels].map(label=>`<span class="record-badge">🏅 ${label}</span>`).join('')}</div>`:'';
+}
 
 function workoutExercisesHtml(w){
   const list=Array.isArray(w.exercises)?w.exercises:[];
@@ -2101,11 +2200,11 @@ function workoutExercisesHtml(w){
           const peso=Number(s.weight)||0;
           const reps=Number(s.reps)||0;
           const vol=(s.volume!==undefined&&s.volume!==null&&s.volume!=='')?Number(s.volume):peso*reps;
-          return `<div class="set-line"><span class="set-index">Serie ${Number(s.set)||i+1}</span><span class="set-data"><input class="history-edit-input" type="number" min="0" step="0.5" aria-label="Peso de la serie ${i+1} en kg" data-ex="${exIndex}" data-set="${i}" data-field="weight" value="${peso}"> kg × <input class="history-edit-input" type="number" min="0" step="1" aria-label="Repeticiones de la serie ${i+1}" data-ex="${exIndex}" data-set="${i}" data-field="reps" value="${reps}"> reps<span class="set-sub">${fmtKgNumber(vol)} kg</span></span></div>`;
+          return `<div class="set-line"><span class="set-index">Serie ${Number(s.set)||i+1}</span><span class="set-data"><input class="history-edit-input" type="number" min="0" step="0.5" aria-label="Peso de la serie ${i+1} en kg" data-ex="${exIndex}" data-set="${i}" data-field="weight" value="${peso}"> kg × <input class="history-edit-input" type="number" min="0" step="1" aria-label="Repeticiones de la serie ${i+1}" data-ex="${exIndex}" data-set="${i}" data-field="reps" value="${reps}"> reps<span class="set-sub">${fmtKgNumber(vol)} kg</span></span>${recordBadgesHtml(setRecordFlags(ex.name,s,w,i))}</div>`;
         }).join('')
       : `<div class="set-line" style="justify-content:flex-start"><span class="set-index">Sin series registradas</span></div>`;
     return `<div class="history-ex-block">
-      <div class="history-ex-head">
+      <div class="history-ex-head" role="button" tabindex="0" onclick="showWorkoutExerciseHistory(${exIndex})">
         <img src="${exerciseImg(ex.img)}" alt="">
         <div class="hex-tx"><b>${escapeHtml(ex.name||'Ejercicio')}</b><span>${escapeHtml(ex.muscle||'')}${sets.length?' · '+sets.length+' serie'+(sets.length===1?'':'s'):''} · ${fmtKgNumber(ex.volume)} kg</span></div>
       </div>
@@ -2126,6 +2225,7 @@ function showWorkoutDetail(key){
   content.innerHTML=`<div class="history-detail-head"><div><div class="history-detail-title">${escapeHtml(w.name||'Entrenamiento')}</div><div class="history-detail-date">${escapeHtml(dateLabel)}${w.folder?' · '+escapeHtml(w.folder):''}</div></div><div class="pr-badge">SESIÓN</div></div>
     <label class="history-date-edit">Día del entrenamiento<input id="historyWorkoutDate" type="date" value="${escapeHtml(w.date)}"></label>
     <div class="history-detail-grid"><div class="history-detail-metric"><b>${formatDurationMinutes(w.duration)}</b><span>DURACIÓN</span></div><div class="history-detail-metric"><b>${fmtKgNumber(w.volume)} kg</b><span>VOLUMEN</span></div><div class="history-detail-metric"><b>${Number(w.sets)||0}</b><span>SERIES</span></div><div class="history-detail-metric"><b>${Number(w.reps)||0}</b><span>REPETICIONES</span></div></div>
+    ${workoutRecordBadgesHtml(w)}
     ${details}${emptyDetail}
     <button class="btn btn-primary" style="width:100%;margin-top:8px;padding:12px" onclick="saveWorkoutEdits()">Guardar cambios</button>
     <button class="btn btn-ghost btn-delete-workout" style="width:100%;margin-top:14px;padding:12px" onclick="deleteWorkoutFromDetail()">Eliminar entrenamiento</button>`;
@@ -2170,16 +2270,28 @@ function deleteWorkoutFromDetail(){
     return x.date===target.date && x.name===target.name && Number(x.duration)===Number(target.duration) && Number(x.volume)===Number(target.volume);
   });
   if(idx<0){closeWorkoutDetail();return;}
-  workoutLog.splice(idx,1);persistLocalData();closeWorkoutDetail();renderRecentHistory();renderWorkoutStats();renderCalendar();renderChart(currentFilter);toast('Entrenamiento eliminado');
+  workoutLog.splice(idx,1);persistLocalData();closeWorkoutDetail();renderRecentHistory();renderProfileRoutineHistory();renderWorkoutStats();renderCalendar();renderChart(currentFilter);toast('Entrenamiento eliminado');
 }
 function closeWorkoutDetail(){selectedWorkoutRecord=null;document.getElementById('historyDetailSheet').classList.remove('open');document.getElementById('historyDetailBackdrop').classList.remove('open');}
+function showWorkoutExerciseHistory(index){
+  const exercise=selectedWorkoutRecord?.exercises?.[index];
+  if(exercise)showExerciseDetail(exercise);
+}
 
 function renderRecentHistory(){
-  const container=document.getElementById('recentHistory');
+  renderWorkoutHistoryList('recentHistory',5);
+}
+function renderProfileRoutineHistory(){
+  renderWorkoutHistoryList('profileRoutineHistory');
+}
+function renderWorkoutHistoryList(containerId,limit){
+  const container=document.getElementById(containerId);
   if(!container)return;
-  const recent=recordedWorkouts().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+  const all=recordedWorkouts().sort((a,b)=>b.date.localeCompare(a.date)||String(b.startedAt||'').localeCompare(String(a.startedAt||'')));
+  const recent=limit?all.slice(0,limit):all;
+  const recordIndex=buildWorkoutRecordIndex();
   if(!recent.length){
-    container.innerHTML='<div class="card" style="text-align:center;padding:22px 16px;color:var(--muted)"><b style="display:block;color:var(--txt);margin-bottom:4px;font-size:13px">Todavía no hay entrenamientos</b><span style="font-size:12px">Cuando termines y guardes una sesión, aparecerá aquí.</span></div>';
+    container.innerHTML='<div class="card" style="text-align:center;padding:22px 16px;color:var(--muted)"><b style="display:block;color:var(--txt);margin-bottom:4px;font-size:14px">Todavía no hay entrenamientos</b><span>Cuando termines y guardes una sesión, aparecerá aquí.</span></div>';
     return;
   }
   container.innerHTML=recent.map(w=>{
@@ -2187,11 +2299,18 @@ function renderRecentHistory(){
     const vol=(Number(w.volume)||0).toLocaleString('es-ES');
     const dur=formatDurationMinutes(w.duration);
     const sets=Number(w.sets)||0;
+    const exerciseLinks=(w.exercises||[]).map((ex,i)=>`<button class="history-exercise-link" onclick="event.stopPropagation();showExerciseFromWorkout('${workoutKey(w)}',${i})">${escapeHtml(ex.name||'Ejercicio')}</button>`).join('');
     return `<div class="hist-card" role="button" tabindex="0" onclick="showWorkoutDetail('${workoutKey(w)}')">
       <div class="hist-top"><div><h3>${title}</h3><div class="date">${formatWorkoutDate(w.date)} · ${w.date.split('-').reverse().join('/')}</div></div><div class="pr-badge">${sets} series</div></div>
       <div class="hist-metrics"><div class="hm"><b>${dur}</b><span>tiempo</span></div><div class="hm"><b>${vol} kg</b><span>volumen</span></div></div>
+      ${workoutRecordBadgesHtml(w,recordIndex)}
+      ${exerciseLinks?`<div class="history-exercise-links">${exerciseLinks}</div>`:''}
     </div>`;
   }).join('');
+}
+function showExerciseFromWorkout(key,index){
+  const workout=findWorkoutRecord(key),exercise=workout?.exercises?.[index];
+  if(exercise)showExerciseDetail(exercise);
 }
 function renderWorkoutStats(){
   const grid=document.getElementById('statsReportGrid');
@@ -2235,18 +2354,17 @@ function recordedWorkouts(){
     .map(w => ({...w, duration:Number(w.duration)||0, volume:Number(w.volume)||0, sets:Number(w.sets)||0, reps:Number(w.reps)||0}));
 }
 
-let homePeriod='7';
+let homePeriod='30';
 
 function renderChart(filter){
   currentFilter = filter;
   const cfg = CHART_DATA[filter] || CHART_DATA.dur;
   const period=homePeriod;
   const all=recordedWorkouts().filter(w=>w.date<=TODAY_ISO).sort((a,b)=>a.date.localeCompare(b.date));
-  const days=period==='ALL'?null:Number(period);
-  const cutoff=days?isoDate(addDays(TODAY,-days+1)):(all[0]?.date||TODAY_ISO);
+  const days=Number(period)||30;
+  const cutoff=isoDate(addDays(TODAY,-days+1));
   const sessions=all.filter(w=>w.date>=cutoff);
-  let count=period==='7'?7:period==='30'?5:12;
-  if(period==='ALL') count=Math.max(1,Math.min(12,Math.ceil((TODAY-parseISO(cutoff))/2592000000)+1));
+  const count=period==='30'?5:12;
   const start=parseISO(cutoff).getTime(),end=parseISO(TODAY_ISO).getTime(),span=Math.max(1,end-start+86400000);
   const field=filter==='vol'?'volume':filter==='rep'?'reps':'duration';
   const buckets=Array.from({length:count},(_,i)=>({value:0,items:0,label:''}));
@@ -2256,7 +2374,7 @@ function renderChart(filter){
   });
   buckets.forEach((b,i)=>{
     const date=new Date(start+(span*i/count));
-    b.label=period==='7'?DAYS[(date.getDay()+6)%7]:date.toLocaleDateString('es-ES',{day:'numeric',month:'short'}).replace('.','');
+    b.label=date.toLocaleDateString('es-ES',{day:'numeric',month:'short'}).replace('.','');
   });
   const values=buckets.map(b=>b.value);
   const max = Math.max(1, ...values);
@@ -2284,7 +2402,7 @@ function renderChart(filter){
       const bar=col.querySelector('.bar'); if(bar) bar.style.height = h + '%';
     }, 20 + i * 25));
   });
-  const periodLabel=period==='7'?'última semana':period==='30'?'último mes':period==='90'?'últimos 3 meses':period==='180'?'últimos 6 meses':'todo el tiempo';
+  const periodLabel=period==='30'?'último mes':period==='90'?'últimos 3 meses':period==='180'?'últimos 6 meses':'último año';
   document.getElementById('chartSub').textContent = hasData
     ? cfg.label + ' · total por periodo · ' + periodLabel
     : cfg.label + ' · sin sesiones registradas';
@@ -2296,10 +2414,8 @@ function setFilter(btn){
   renderChart(btn.dataset.f);
 }
 
-function setPeriod(btn){
-  document.querySelectorAll('#homePeriodChips button').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  homePeriod=btn.dataset.period||'90';
+function setPeriod(select){
+  homePeriod=select.value||'30';
   renderChart(currentFilter);
 }
 
@@ -2866,6 +2982,29 @@ function recalcActiveSessionTotals(){
   });
   document.getElementById('volTotal').textContent = Math.round(vol).toLocaleString('es-ES');
   document.getElementById('setsDone').textContent = `${doneRows.length}/${allRows.length}`;
+  refreshActiveSetRecordBadges();
+}
+
+function refreshActiveSetRecordBadges(){
+  document.querySelectorAll('#s-active .ex-card').forEach(card=>{
+    const exerciseName=card.dataset.name||'';
+    const stats=recordStatsBefore(exerciseName,null,0);
+    card.querySelectorAll('.set-row').forEach(row=>{
+      const target=row.querySelector('.active-set-records');
+      if(!target)return;
+      const inputs=row.querySelectorAll('.num-input');
+      const weight=Number(inputs[0]?.value)||0,reps=Number(inputs[1]?.value)||0;
+      const done=row.querySelector('.check')?.classList.contains('on');
+      target.innerHTML=done?recordBadgeItemsHtml({
+        weight:weight>stats.weight,
+        oneRepMax:estimatedOneRepMax(weight,reps)>stats.oneRepMax
+      }):'';
+      if(done){
+        stats.weight=Math.max(stats.weight,weight);
+        stats.oneRepMax=Math.max(stats.oneRepMax,estimatedOneRepMax(weight,reps));
+      }
+    });
+  });
 }
 
 function toggleCheck(el, restSec = 120){
@@ -3003,7 +3142,7 @@ function renderActiveSessionCards(){
       return `
         <div class="set-row" data-w="${w}" data-r="${r}">
           <div class="set-num">${idx + 1}</div>
-          <div class="set-prev">${prev}</div>
+          <div class="set-prev"><span>${prev}</span><span class="active-set-records"></span></div>
           <input class="num-input" readonly value="${w}" onclick="openKeypad(this,'Peso (kg)')">
           <input class="num-input" readonly value="${r}" onclick="openKeypad(this,'Repeticiones')">
           <div class="check" onclick="toggleCheck(this, ${restSec})"></div>
@@ -3146,6 +3285,7 @@ function saveFinishedSession(){
     persistLocalData();
     renderChart(currentFilter);
     renderRecentHistory();
+    renderProfileRoutineHistory();
     renderWorkoutStats();
     renderStatsScreen();
     renderCalendar();
@@ -3926,6 +4066,7 @@ function renderCalDetail(){
   if (!dayWorkouts.length) { el.innerHTML = ''; return; }
   const d = parseISO(selectedCalDate);
   const dayLabel = d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
+  const recordIndex=buildWorkoutRecordIndex();
 
   el.innerHTML = dayWorkouts.map((w, i) => `
     <div class="card" style="margin-top:12px">
@@ -3941,6 +4082,7 @@ function renderCalDetail(){
         <div class="hm"><b>${fmtKgNumber(w.volume)} kg</b><span>volumen</span></div>
         <div class="hm"><b>${Number(w.sets) || 0}</b><span>series</span></div>
       </div>
+      ${workoutRecordBadgesHtml(w,recordIndex)}
       <button class="btn btn-ghost" style="width:100%;padding:10px;margin-top:12px" onclick="showWorkoutDetail('${workoutKey(w)}')">Ver ejercicios y pesos</button>
     </div>
   `).join('');
@@ -4079,6 +4221,7 @@ function refreshAllViews(){
   renderMeasureRecords();
   renderCalendar();
   renderRecentHistory();
+  renderProfileRoutineHistory();
   renderWorkoutStats();
 }
 
