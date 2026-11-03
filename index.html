@@ -2042,6 +2042,7 @@ const EXERCISE_IMG_KEYS = Object.keys(EXERCISE_IMAGES);
 
 const WORKOUT_GUIDE_VERSION='1.0.0';
 const WORKOUT_GUIDE_CDN=`https://cdn.jsdelivr.net/npm/@bryllim/workout-guide@${WORKOUT_GUIDE_VERSION}`;
+const WORKOUT_GUIDE_SITE='https://bryllim.github.io/workout-guide';
 const LEGACY_ICON_GUIDE_SLUGS={bench:'bench-press',squat:'squat',deadlift:'dumbbell-romanian-deadlift',pullup:'pull-up',curl:'bicep-curl',press:'overhead-press',row:'barbell-row',generic:'push-up'};
 const WORKOUT_GUIDE_SPANISH_ALIASES={
   'press de banca con barra':'bench-press',
@@ -2064,7 +2065,7 @@ const WORKOUT_GUIDE_SPANISH_ALIASES={
   'plancha abdominal crunch polea':'plank'
 };
 function workoutGuideAssetUrl(slug,frame=1){
-  return `${WORKOUT_GUIDE_CDN}/assets/${encodeURIComponent(slug)}/frame-${Math.min(3,Math.max(1,Number(frame)||1))}.svg`;
+  return `${WORKOUT_GUIDE_SITE}/frames/${encodeURIComponent(slug)}/frame-${Math.min(3,Math.max(1,Number(frame)||1))}.svg`;
 }
 function workoutGuideSlugFor(img,name=''){
   const normalizedName=normalizeExerciseSearch(name);
@@ -2074,11 +2075,13 @@ function workoutGuideSlugFor(img,name=''){
   return '';
 }
 function isWorkoutGuideImage(img,name=''){
-  return !!workoutGuideSlugFor(img,name)||(typeof img==='string'&&(img.includes('cdn.jsdelivr.net/npm/@bryllim/workout-guide@')||/^https?:\/\/wger\.de\//i.test(img)));
+  return !!workoutGuideSlugFor(img,name)||(typeof img==='string'&&(img.includes('cdn.jsdelivr.net/npm/@bryllim/workout-guide@')||/^https?:\/\/bryllim\.github\.io\/workout-guide\/frames\//i.test(img)||/^https?:\/\/wger\.de\//i.test(img)));
 }
 /* Resuelve imágenes guardadas, imágenes personalizadas y assets de Workout Guide. */
 function exerciseImg(img,name=''){
   if (typeof img === 'string' && img) {
+    const oldGuideUrl=img.match(/^https?:\/\/cdn\.jsdelivr\.net\/npm\/@bryllim\/workout-guide@[^/]+\/assets\/([^/]+)\/frame-([1-3])\.svg(?:\?.*)?$/i);
+    if(oldGuideUrl)return workoutGuideAssetUrl(decodeURIComponent(oldGuideUrl[1]),Number(oldGuideUrl[2]));
     if(/^https?:\/\/wger\.de\//i.test(img))return workoutGuideAssetUrl(workoutGuideSlugFor('',name)||'push-up');
     if (img.startsWith('data:image/') || /^https?:\/\//i.test(img)) return img;
   }
